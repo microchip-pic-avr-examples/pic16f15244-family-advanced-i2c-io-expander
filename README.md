@@ -21,6 +21,27 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 
 ## Setup
 
+### Wiring
+<img src="images/Schematic.png" width="500px"><br>
+*Figure 1 - Electrical Configuration of device. Shown with Address Lines tied to GND.*<br>
+
+On the PIC16-152, the default positions for the pins and ports are:
+
+| Function  | Pin or PORT
+| --------- | ----
+| SDA       | RB4
+| SCL       | RB6
+| INT       | RB5
+| ADDR0     | Rxy
+| ADDR1     | Rxy
+| ADDR2     | Rxy
+| I/O       | PORTC
+
+### Default I<sup>2</sup>C settings
+
+**Speed:** 100kHz<br>
+**Base Address:** 0x60<br>
+
 ## Operation
 
 ### Startup
@@ -37,8 +58,8 @@ After addressing the device, the device will always ACK. The 1st data byte sent 
 
 **Important! IF data is written to a non-writable location (Read Only, Invalid, or Select Only regions), then the device will NACK and set an error code in the STATUS register.**
 
-<img src="images/I2C_write.png" width=100%><br>
-*Figure 1 - I<sup>2</sup>C Example Write*<br>
+<img src="images/I2C_write.png" width="100%"><br>
+*Figure 2 - I<sup>2</sup>C Example Write*<br>
 
 #### Reading from the Device
 To read from the device, 2 I<sup>2</sup>C transactions must be executed, a write and a read. The write command sends only a single data byte to indicate the starting address of the read. The I<sup>2</sup>C bus is stopped, and the device is re-addressed. A valid read location will cause the device ACK on the bus.<br>
@@ -52,13 +73,13 @@ Each successive byte after this is the returned value in each command register. 
 Figure 2 (below) shows a sequential read of 2 addresses.
 
 <img src="images/I2C_read.png" width=100%><br>
-*Figure 2 - I<sup>2</sup>C Example Read*<br>
+*Figure 3 - I<sup>2</sup>C Example Read*<br>
 
 
 #### Command Ordering and Permissions
 Figure 3 (below) shows the order of commands on the device and the associated permissions. <br>
 <img src="images/CommandSet.png" width="500px"><br>
-*Figure 3 - Command Order and Allowed Operations*<br>
+*Figure 4 - Command Order and Allowed Operations*<br>
 
 ##### Permission Descriptions
 
@@ -95,7 +116,9 @@ This code example supports the ability to save and load I/O configurations to it
 3. Load Configuration
 4. Save and Load Configuration
 
-### Order of Operations
+During memory operations, all interrupts are disabled and I<sup>2</sup>C will not be acknowledged.
+
+### Setting up Memory Operations
 For all memory operations, the following sequence must be followed:
 
  1. Select the address 0xA0
@@ -105,7 +128,8 @@ For all memory operations, the following sequence must be followed:
  5. Stop the I<sup>2</sup>C bus
  6. Wait for INT to be asserted
 
-<br>
+**Important! If the unlocking sequence is done incorrectly (wrong passed values), then the memory OP and INT assert will never occur. The device will continue to function.** <br>
+
  When followed, the device will execute the programmed memory operation (see Memory Operation Byte for details) and assert the INT line when it has completed. The address selected at the completion is STATUS (0x00). A read operation can be run immediately following the memory write without the need to set the address.<br><br>
 
  **Important! If an error occurs before the memory operation, then the operation will not occur. The INT line will still be asserted and the address selected will be set to STATUS (0x00).**<br>
@@ -116,7 +140,7 @@ If a memory operation fails, then the STATUS register will be updated and the op
 ### Memory Operation Byte
 
 <img src="images/memoryOP.png" width="500px"><br>
-*Figure 4 - Memory Operation Byte*<br>
+*Figure 5 - Memory Operation Byte*<br>
 
 The formatting of the memory operation byte is shown in figure 4. Some configurations do not use some fields in the byte , as shown below. In this case, the unused fields can be set to any value.
 
@@ -161,7 +185,7 @@ On the PIC16-152, PFM is 14-bits wide. There are 4 fields that are saved, repres
 There are 4 configurations possible, using 16 words worth of memory. As apart of the writing process, entire row (32 words) must be erased, however. The save functions cache the entire row before erase, apply changes, then rewrite all of the row. The unused words can be used to store or retrieve arbitrary values or constants in memory.  
 
 <img src="images/memoryPacking.png" width="500px"><br>
-*Figure 4 - Memory Formatting and Packing*<br>
+*Figure 6 - Memory Formatting and Packing*<br>
 
 ## Error Handling
 
