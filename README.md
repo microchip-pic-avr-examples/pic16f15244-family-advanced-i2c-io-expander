@@ -21,7 +21,15 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 
 ## Table of Contents
 
-* [Memory Operation Byte](#markdown-header-summary)
+<br>
+
+* [summary](#summary)
+* [summary](#markdown-header-summary)
+* [ summary ](#summary)
+* [ summary ](#markdown-header-summary)
+
+<br>
+
 
 ## Setup
 
