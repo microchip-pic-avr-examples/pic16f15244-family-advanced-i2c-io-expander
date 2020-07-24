@@ -22,7 +22,7 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 ## Setup
 
 ### Wiring
-<img src="images/Schematic.png" width="500px"><br>
+<img src="images/schematic.png" width="500px"><br>
 *Figure 1 - Electrical Configuration of device. Shown with Address Lines tied to GND.*<br>
 
 On the PIC16-152, the default positions for the pins and ports are:
