@@ -19,6 +19,10 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 * <a href="https://www.microchip.com/DevelopmentTools/ProductDetails/PartNO/DM164137"> Microchip Low Pin Count Curiosity, PN: DM164137</a>
 * <a href="https://www.microchip.com/developmenttools/ProductDetails/PartNO/ADM00559"> I<sup>2</sup>C Master Device (or for easy testing, an MCP2221A USB-UART/I<sup>2</sup>C breakout module, PN: ADM00559)</a>
 
+## Table of Contents
+
+* [Memory Operation Byte](#memory-operation-byte)
+
 ## Setup
 
 ### Wiring
