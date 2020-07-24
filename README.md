@@ -60,7 +60,7 @@ Figure 2 (below) shows a sequential read of 2 addresses.
 
 #### Command Ordering and Permissions
 Figure 3 (below) shows the order of commands on the device and the associated permissions. <br>
-<img src="images/commandSet.png" width="500px"><br>
+<img src="images/CommandSet.png" width="500px"><br>
 *Figure 3 - Command Order and Allowed Operations*<br>
 
 ##### Permission Descriptions
