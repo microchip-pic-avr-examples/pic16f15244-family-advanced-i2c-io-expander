@@ -1,15 +1,12 @@
 <!-- Please do not change this html logo with link -->
 <a href="https://www.microchip.com" rel="nofollow"><img src="images/microchip.png" alt="MCHP" width="300"/></a>
 
-# I2C 8-Bit I/O Expander with PIC16F15245
-One of the biggest benefits of I2C is the simple wiring required to create a full-featured serial bus. This code example leverages this fact to create an 8-bit I/O extender using the MSSP module, along with powerful other features such as Interrupt on Change (IOC) and the Program Flash Memory (PFM) to store and switch between different I/O configurations.
+# I<sup>2</sup>C 8-Bit I/O Expander with PIC16F15245
+One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to create a full-featured serial bus. This code example leverages this fact to create an 8-bit I/O extender using the MSSP module, along with powerful other features such as Interrupt on Change (IOC) and the Program Flash Memory (PFM) to store and switch between different I/O configurations.
 
 ## Related Documentation
 
-<!-- Any information about an application note or tech brief can be linked here. Use unbreakable links!
-     In addition a link to the device family landing page and relevant peripheral pages as well:
-     - [AN3381 - Brushless DC Fan Speed Control Using Temperature Input and Tachometer Feedback](https://microchip.com/00003381/)
-     - [PIC18F-Q10 Family Product Page](https://www.microchip.com/design-centers/8-bit/pic-mcus/device-selection/pic18f-q10-product-family) -->
+* <a href="https://www.microchip.com/wwwproducts/en/PIC16F15245">PIC16F15245 Documentation</a>
 
 ## Software Used
 
@@ -20,19 +17,19 @@ One of the biggest benefits of I2C is the simple wiring required to create a ful
 
 * <a href="">PIC16F15245, DIP</a>
 * <a href="https://www.microchip.com/DevelopmentTools/ProductDetails/PartNO/DM164137"> Microchip Low Pin Count Curiosity, PN: DM164137</a>
-* <a href="https://www.microchip.com/developmenttools/ProductDetails/PartNO/ADM00559"> I2C Master Device (or for easy testing, an MCP2221A USB-UART/I2C breakout module, PN: ADM00559)</a>
+* <a href="https://www.microchip.com/developmenttools/ProductDetails/PartNO/ADM00559"> I<sup>2</sup>C Master Device (or for easy testing, an MCP2221A USB-UART/I<sup>2</sup>C breakout module, PN: ADM00559)</a>
 
 ## Setup
 
 ## Operation
 
 ### Startup
-The I2C I/O expander can be set to initialize in 2 states - a hardcoded default setup which sets all pins as inputs and disables all IOC functions, or configuration 0, which is stored in PFM. For more information about PFM configurations, see *Memory Operations*. <br>
+The I<sup>2</sup>C I/O expander can be set to initialize in 2 states - a hardcoded default setup which sets all pins as inputs and disables all IOC functions, or configuration 0, which is stored in PFM. For more information about PFM configurations, see *Memory Operations*. <br>
 
-### I2C Configuration
-This example uses a 7-bit I2C address, with it defined **default 0x60** with the ***lower 3-bits set by the address lines***. On startup, the lines are polled to determine which address to use. After startup, the command Address Update (0xB0) can be executed to poll and change the address based on the current logic levels on the address lines.
+### I<sup>2</sup>C Configuration
+This example uses a 7-bit I<sup>2</sup>C address, with it defined **default 0x60** with the ***lower 3-bits set by the address lines***. On startup, the lines are polled to determine which address to use. After startup, the command Address Update (0xB0) can be executed to poll and change the address based on the current logic levels on the address lines.
 
-### I2C Communication
+### I<sup>2</sup>C Communication
 For reference with this section, please consult *Command Ordering and Permissions* to see valid commands and the allowed operations associated.
 
 #### Writing to the Device
@@ -41,10 +38,10 @@ After addressing the device, the device will always ACK. The 1st data byte sent 
 **Important! IF data is written to a non-writable location (Read Only, Invalid, or Select Only regions), then the device will NACK and set an error code in the STATUS register.**
 
 <img src="images/I2C_write.png" width=100%><br>
-*Figure 1 - I2C Example Write*<br>
+*Figure 1 - I<sup>2</sup>C Example Write*<br>
 
 #### Reading from the Device
-To read from the device, 2 I2C transactions must be executed, a write and a read. The write command sends only a single data byte to indicate the starting address of the read. The I2C bus is stopped, and the device is re-addressed. A valid read location will cause the device ACK on the bus.<br>
+To read from the device, 2 I<sup>2</sup>C transactions must be executed, a write and a read. The write command sends only a single data byte to indicate the starting address of the read. The I<sup>2</sup>C bus is stopped, and the device is re-addressed. A valid read location will cause the device ACK on the bus.<br>
 
 **Important! IF the address set in the device is invalid, the device will NACK and set an error code in STATUS.**<br>
 
@@ -55,7 +52,7 @@ Each successive byte after this is the returned value in each command register. 
 Figure 2 (below) shows a sequential read of 2 addresses.
 
 <img src="images/I2C_read.png" width=100%><br>
-*Figure 2 - I2C Example Read*<br>
+*Figure 2 - I<sup>2</sup>C Example Read*<br>
 
 
 #### Command Ordering and Permissions
@@ -88,7 +85,7 @@ Figure 3 (below) shows the order of commands on the device and the associated pe
 | MEM OP      | 0xA0    | WO         | Sets the memory operation to execute on the next STOP condition. *See Memory Operations for more details.*
 | UNLOCK1     | N/A     | WO, ID     | Protection sequence to prevent accidental memory operations. Only accessed via sequential writes to MEM OP. **Write 0xA5**.
 | UNLOCK2     | N/A     | WO, ID     | Protection sequence to prevent accidental memory operations. Only accessed via sequential writes to MEM OP. **Write 0xF0**, then STOP.
-| ADR UPDATE  | 0xB0    | SO         | Updates the I2C address by repolling the address select lines. Select this register then STOP to update address.
+| ADR UPDATE  | 0xB0    | SO         | Updates the I<sup>2</sup>C address by repolling the address select lines. Select this register then STOP to update address.
 
 ## Memory Operations
 This code example supports the ability to save and load I/O configurations to it's own internal PFM. 4 types of operations are supported:
@@ -105,7 +102,7 @@ For all memory operations, the following sequence must be followed:
  2. Write the memory operation byte
  3. Write 0xA5
  4. Write 0xF0
- 5. Stop the I2C bus
+ 5. Stop the I<sup>2</sup>C bus
  6. Wait for INT to be asserted
 
 <br>
@@ -142,7 +139,7 @@ This memory operation resets the current volatile settings to the defaults.<br>
 This memory operation writes the current volatile I/O settings to the selected configuration DST.
 
 **Fields Used:** DST, OP<br>
-**Failure Handling:** The configuration that is written to memory is verified against the copy of the data in memory. If the values mismatch, an error occurs in the program. Loading this mismatched memory will fail due to CRC checksum embedded with it.
+**Failure Handling:** The configuration that is written to memory is verified against the copy of the data in memory. If the values mismatch, an error occurs in the program. Loading this mismatched memory will fail due to CRC checksum embedded with it.<br>
 
 ### Load Configuration
 This memory operation discards the current I/O settings to load from non-volatile memory. Prior to loading the configuration, the I/O pins can be set to remain in a specific state (defined by BH) until the operation has completed.
@@ -168,7 +165,20 @@ There are 4 configurations possible, using 16 words worth of memory. As apart of
 
 ## Error Handling
 
+| Error Code            | Value    | Description
+| --------------------- | -------- | -----------
+| ERROR_NONE            | 0x00     | No error has occurred. Default Condition.
+| ERROR_READ_OVERRUN    | 0x01     | Attempted read at an invalid address, but started on a valid address.
+| ERROR_WRITE_OVERRUN   | 0x02     | Attempted write at an invalid location, but started on a valid address.
+| ERROR_INVALID_READ_OP | 0x03     | Attempted read at an invalid address.
+| ERROR_WRITE_ADDR      | 0x04     | Attempted write at an invalid address.
+| ERROR_NON_ADDRESS     | 0x05     | Incorrect address received during I<sup>2</sup>C addressing, however interrupt triggered. Should never occur.
+| ERROR_UNUSED          | 0x06     | Placeholder Error Code - to be replaced
+| ERROR_ILLEGAL_MEM_OP  | 0x07     | `runMemoryOP()` was called even though `isPendingMemoryOP()` returned false.
+| ERROR_MEM_OP_FAILED   | 0x08     | No error has occurred. Default Condition.
+| ERROR_MEM_OP_ABORTED  | 0x09     | `isPendingMemoryOP()` detected an error was set after unlocking and aborted the memory OP.
+| ERROR_MEM_INVALID_SEQ | 0x0A     | An invalid sequence was provided to unlock the memory.
+| ERROR_INVALID_ACCESS  | 0x0B     | Attempted to directly access UNLOCK1/2.  
 
 ## Summary
-
-<!-- Summarize what the example has shown -->
+The PIC16-152 is perfect for building intelligent and flexible I/O expanders that enable more feature rich systems that can do more with less.
