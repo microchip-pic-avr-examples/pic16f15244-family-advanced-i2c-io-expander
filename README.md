@@ -15,7 +15,6 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 
 ## Hardware Used
 
-* <a href="">PIC16F15245, DIP</a>
 * <a href="https://www.microchip.com/DevelopmentTools/ProductDetails/PartNO/DM164137"> Microchip Low Pin Count Curiosity, PN: DM164137</a>
 * <a href="https://www.microchip.com/developmenttools/ProductDetails/PartNO/ADM00559"> I<sup>2</sup>C Master Device (or for easy testing, an MCP2221A USB-UART/I<sup>2</sup>C breakout module, PN: ADM00559)</a>
 
@@ -23,13 +22,29 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 
 <br>
 
-* [summary](#summary)
-* [summary](#markdown-header-summary)
-* [ summary ](#summary)
-* [ summary ](#markdown-header-summary)
+* [Setup](#summary)
+  * [Wiring](#markdown-header-summary)
+  * [Default I<sup>2</sup>C Settings](#summary)
+* [Operation](#markdown-header-summary)
+  * [Startup](#markdown-header-summary)
+* [I<sup>2</sup>C Configuration](#markdown-header-summary)
+* [I<sup>2</sup>C Communication](#markdown-header-summary)
+  * [Writing to the Device](#markdown-header-summary)
+  * [Reading from the Device](#markdown-header-summary)
+  * [Command Ordering and Permissions](#markdown-header-summary)
+* [Memory Operations](#markdown-header-summary)
+    * [Setting up Memory Operations](#markdown-header-summary)
+    * [Memory Operation Byte](#markdown-header-summary)
+    * [Memory Commands](#markdown-header-summary)
+      * [Load Default](#markdown-header-summary)
+      * [Save Configuration](#markdown-header-summary)
+      * [Load Configuration](#markdown-header-summary)
+      * [Save and Load Configuration](#markdown-header-summary)
+    * [Memory Storage](#markdown-header-summary)
+* [Error Handling](#markdown-header-summary)
+* [Summary](#markdown-header-summary)
 
 <br>
-
 
 ## Setup
 
@@ -66,7 +81,7 @@ This example uses a 7-bit I<sup>2</sup>C address, with it defined **default 0x60
 For reference with this section, please consult *Command Ordering and Permissions* to see valid commands and the allowed operations associated.
 
 #### Writing to the Device
-After addressing the device, the device will always ACK. The 1st data byte sent is the starting address byte. In the case of a read (or select only command), this is the only byte sent. All successive bytes are passed to the commands as parameters, with the 2nd byte going into the command at the address, the 3rd going into the command at address + 1, etc. After each successful written byte, the internal address counter increments. The image in Figure 1 shows an example write to address and address + 1. <br>
+After addressing the device, the device will always ACK. The 1st data byte sent is the starting address byte. In the case of a read (or select only command), this is the only byte sent. All successive bytes are passed to the commands as parameters, with the 2nd byte going into the command at the address, the 3rd going into the command at address + 1, etc. After each successful written byte, the internal address counter increments. The image in Figure 2 shows an example write to address and address + 1. <br>
 
 **Important! IF data is written to a non-writable location (Read Only, Invalid, or Select Only regions), then the device will NACK and set an error code in the STATUS register.**
 
@@ -82,14 +97,14 @@ Each successive byte after this is the returned value in each command register. 
 
 **Important! IF the address enters a section of memory where reads are not allowed (Invalid, Write Only, Write Only, or Select Only), then the device sets an error code in STATUS and returns only 0x00 until the end of the transaction. The address is not incremented.**
 
-Figure 2 (below) shows a sequential read of 2 addresses.
+Figure 3 (below) shows a sequential read of 2 addresses.
 
 <img src="images/I2C_read.png" width=100%><br>
 *Figure 3 - I<sup>2</sup>C Example Read*<br>
 
 
 #### Command Ordering and Permissions
-Figure 3 (below) shows the order of commands on the device and the associated permissions. <br>
+Figure 4 (below) shows the order of commands on the device and the associated permissions. <br>
 <img src="images/CommandSet.png" width="500px"><br>
 *Figure 4 - Command Order and Allowed Operations*<br>
 
@@ -154,7 +169,7 @@ If a memory operation fails, then the STATUS register will be updated and the op
 <img src="images/memoryOP.png" width="500px"><br>
 *Figure 5 - Memory Operation Byte*<br>
 
-The formatting of the memory operation byte is shown in figure 4. Some configurations do not use some fields in the byte , as shown below. In this case, the unused fields can be set to any value.
+The formatting of the memory operation byte is shown in figure 5. Some configurations do not use some fields in the byte , as shown below. In this case, the unused fields can be set to any value.
 
 | Operation     | Fields Used
 | ------------- | ---------
@@ -165,25 +180,27 @@ The formatting of the memory operation byte is shown in figure 4. Some configura
 
 <br>
 
-### Load Defaults
+### Memory Commands
+
+#### Load Defaults
 This memory operation resets the current volatile settings to the defaults.<br>
 
 **Fields Used:** OP<br>
 **Failure Handling:** None. This routine invokes `void resetIO(void)` in io_control.h, which is part of the compiled code, and is not modified at runtime. It is assumed this routine cannot fail.<br>
 
-### Save Configuration
+#### Save Configuration
 This memory operation writes the current volatile I/O settings to the selected configuration DST.
 
 **Fields Used:** DST, OP<br>
 **Failure Handling:** The configuration that is written to memory is verified against the copy of the data in memory. If the values mismatch, an error occurs in the program. Loading this mismatched memory will fail due to CRC checksum embedded with it.<br>
 
-### Load Configuration
+#### Load Configuration
 This memory operation discards the current I/O settings to load from non-volatile memory. Prior to loading the configuration, the I/O pins can be set to remain in a specific state (defined by BH) until the operation has completed.
 
 **Fields Used:** DST, OP, BH<br>
 **Failure Handling:** When the memory is loaded, the CRC value is unpacked and used to verify the settings. If the CRC fails, then the pins will remain at the settings defined by BH, and an error will be set in STATUS.<br>
 
-### Save and Load Configuration
+#### Save and Load Configuration
 This memory operation saves the current volatile settings to DST, then loads new settings from SRC.
 
 Note: This function does not validate that SRC and DST are different. Setting these to the same config will save and load to the same area in memory.
@@ -192,7 +209,7 @@ Note: This function does not validate that SRC and DST are different. Setting th
 **Failure Handling:** Any failure in saving or loading will cause the pins to remain at BH. An error will be set in STATUS.<br>
 
 ### Memory Storage
-On the PIC16-152, PFM is 14-bits wide. There are 4 fields that are saved, representing direction (TRISx), output value (LATx), and IOC (IOCxP and IOCxN). For loading the values, a simple CRC-8 checksum is calculated and packed in the high-byte, lower 2-bits of each word as shown in Figure 4. When loading, this checksum is used to determine if the data is valid and uncorrupted.<br>
+On the PIC16-152, PFM is 14-bits wide. There are 4 fields that are saved, representing direction (TRISx), output value (LATx), and IOC (IOCxP and IOCxN). For loading the values, a simple CRC-8 checksum is calculated and packed in the high-byte, lower 2-bits of each word as shown in Figure 6. When loading, this checksum is used to determine if the data is valid and uncorrupted.<br>
 
 There are 4 configurations possible, using 16 words worth of memory. As apart of the writing process, entire row (32 words) must be erased, however. The save functions cache the entire row before erase, apply changes, then rewrite all of the row. The unused words can be used to store or retrieve arbitrary values or constants in memory.  
 
