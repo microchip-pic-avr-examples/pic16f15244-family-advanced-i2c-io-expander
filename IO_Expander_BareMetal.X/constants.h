@@ -12,16 +12,15 @@ extern "C" {
 #define ERROR_READ_OVERRUN      1
 #define ERROR_WRITE_OVERRUN     2
 #define ERROR_INVALID_READ_OP   3
-#define ERROR_WRITE_ADDR        4  
+#define ERROR_INVALID_WRITE_OP  4  
 #define ERROR_NON_ADDRESS       5
-#define ERROR_                  6   //Replace This
+#define ERROR_INVALID_ACCESS    6  
 #define ERROR_ILLEGAL_MEM_OP    7
 #define ERROR_MEM_OP_FAILED     8
 #define ERROR_MEM_OP_ABORTED    9
 #define ERROR_MEM_INVALID_SEQ   10
-#define ERROR_INVALID_ACCESS    11
-#define ERROR_CRC_FAILED        12
-#define ERROR_WRITE_VERIFY      13
+#define ERROR_CRC_FAILED        11
+#define ERROR_WRITE_VERIFY      12
     
     
 #define MEM_UNLOCK_KEY1         0xA5

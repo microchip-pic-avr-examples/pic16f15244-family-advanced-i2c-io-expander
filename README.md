@@ -12,37 +12,47 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 
 * <a href="http://www.microchip.com/mplab/mplab-x-ide">MPLAB® IDE 5.40 or newer</a>
 * <a href="https://www.microchip.com/mplab/compilers">Microchip XC8 Compiler 2.20 or newer</a>
+* PIC16F1xxxx_DFP v1.4.119
 
 ## Hardware Used
 
+### With the PIC16F15245
+
 * <a href="https://www.microchip.com/DevelopmentTools/ProductDetails/PartNO/DM164137"> Microchip Low Pin Count Curiosity, PN: DM164137</a>
+
+### With the Curiosity Nano
+
+* <a href="#"> Microchip Curiosity Nano, PN: ???</a>
+
+### Common Parts
+
 * <a href="https://www.microchip.com/developmenttools/ProductDetails/PartNO/ADM00559"> I<sup>2</sup>C Master Device (or for easy testing, an MCP2221A USB-UART/I<sup>2</sup>C breakout module, PN: ADM00559)</a>
 
 ## Table of Contents
 
 <br>
 
-* [Setup](#summary)
-  * [Wiring](#markdown-header-summary)
-  * [Default I<sup>2</sup>C Settings](#summary)
-* [Operation](#markdown-header-summary)
-  * [Startup](#markdown-header-summary)
-* [I<sup>2</sup>C Configuration](#markdown-header-summary)
-* [I<sup>2</sup>C Communication](#markdown-header-summary)
-  * [Writing to the Device](#markdown-header-summary)
-  * [Reading from the Device](#markdown-header-summary)
-  * [Command Ordering and Permissions](#markdown-header-summary)
-* [Memory Operations](#markdown-header-summary)
-    * [Setting up Memory Operations](#markdown-header-summary)
-    * [Memory Operation Byte](#markdown-header-summary)
-    * [Memory Commands](#markdown-header-summary)
-      * [Load Default](#markdown-header-summary)
-      * [Save Configuration](#markdown-header-summary)
-      * [Load Configuration](#markdown-header-summary)
-      * [Save and Load Configuration](#markdown-header-summary)
-    * [Memory Storage](#markdown-header-summary)
-* [Error Handling](#markdown-header-summary)
-* [Summary](#markdown-header-summary)
+* [Setup](#setup)
+  * [Wiring](#wiring)
+  * [Default I<sup>2</sup>C Settings](#default-i2c-settings)
+* [Operation](#operation)
+  * [Startup](#startup)
+* [I<sup>2</sup>C Configuration](#i2c-configuration)
+* [I<sup>2</sup>C Communication](#i2c-communication)
+  * [Writing to the Device](#writing-to-the-device)
+  * [Reading from the Device](#reading-from-the-device)
+  * [Command Ordering and Permissions](#command-ordering-and-permissions)
+* [Memory Operations](#memory-operations)
+    * [Setting up Memory Operations](#setting-up-memory-operations)
+    * [Memory Operation Byte](#memory-operation-byte)
+    * [Memory Commands](#memory-commands)
+      * [Load Default](#load-default)
+      * [Save Configuration](#save-configuration)
+      * [Load Configuration](#load-configuration)
+      * [Save and Load Configuration](#save-and-load-configuration)
+    * [Memory Storage](#memory-storage)
+* [Error Handling](#error-handling)
+* [Summary](#summary)
 
 <br>
 
@@ -130,6 +140,10 @@ Figure 4 (below) shows the order of commands on the device and the associated pe
 | LATx        | 0x04    | RW         | Read/Writes the value of LATx on the configured port.
 | IOCxP       | 0x05    | RW         | Read/Writes the pin configuration for rising edges on PORTx.
 | IOCxN       | 0x06    | RW         | Read/Writes the pin configuration for falling edges on PORTx.
+| WPUx       | 0x08    | RW         | Enables internal weak pull-up resistors for the I/O port.
+| INLVLx       | 0x09    | RW         | Sets the input level threshold for the I/O port.
+| ODCONx      | 0x0A    | RW         | Enables open-drain outputs on the I/O port.
+| SLRCONx      | 0x0B    | RW         | Controls whether or not the slew rate of the I/O port is run at full-speed or reduced-speed. Reduced speed slew rates are beneficial for reducing crosstalk and other sources of electromagnetic noise.
 | MEM OP      | 0xA0    | WO         | Sets the memory operation to execute on the next STOP condition. *See Memory Operations for more details.*
 | UNLOCK1     | N/A     | WO, ID     | Protection sequence to prevent accidental memory operations. Only accessed via sequential writes to MEM OP. **Write 0xA5**.
 | UNLOCK2     | N/A     | WO, ID     | Protection sequence to prevent accidental memory operations. Only accessed via sequential writes to MEM OP. **Write 0xF0**, then STOP.
@@ -192,13 +206,13 @@ This memory operation resets the current volatile settings to the defaults.<br>
 This memory operation writes the current volatile I/O settings to the selected configuration DST.
 
 **Fields Used:** DST, OP<br>
-**Failure Handling:** The configuration that is written to memory is verified against the copy of the data in memory. If the values mismatch, an error occurs in the program. Loading this mismatched memory will fail due to CRC checksum embedded with it.<br>
+**Failure Handling:** The configuration that is written to memory is verified against the copy of the data in memory. If the values mismatch, an error is set in the program. Loading mismatched memory should fail due to CRC checksum embedded with it.<br>
 
 #### Load Configuration
-This memory operation discards the current I/O settings to load from non-volatile memory. Prior to loading the configuration, the I/O pins can be set to remain in a specific state (defined by BH) until the operation has completed.
+This memory operation discards the current I/O settings and loads new settings from non-volatile memory. Prior to loading the configuration, the I/O pins can be set to remain in a specific state (defined by BH) until the operation has completed.
 
 **Fields Used:** DST, OP, BH<br>
-**Failure Handling:** When the memory is loaded, the CRC value is unpacked and used to verify the settings. If the CRC fails, then the pins will remain at the settings defined by BH, and an error will be set in STATUS.<br>
+**Failure Handling:** When the memory is loaded, the CRC value is unpacked and used to verify the settings. If the CRC validation fails, then the pins will remain at the settings defined by BH, and an error will be set in STATUS.<br>
 
 #### Save and Load Configuration
 This memory operation saves the current volatile settings to DST, then loads new settings from SRC.
@@ -211,7 +225,7 @@ Note: This function does not validate that SRC and DST are different. Setting th
 ### Memory Storage
 On the PIC16-152, PFM is 14-bits wide. There are 4 fields that are saved, representing direction (TRISx), output value (LATx), and IOC (IOCxP and IOCxN). For loading the values, a simple CRC-8 checksum is calculated and packed in the high-byte, lower 2-bits of each word as shown in Figure 6. When loading, this checksum is used to determine if the data is valid and uncorrupted.<br>
 
-There are 4 configurations possible, using 16 words worth of memory. As apart of the writing process, entire row (32 words) must be erased, however. The save functions cache the entire row before erase, apply changes, then rewrite all of the row. The unused words can be used to store or retrieve arbitrary values or constants in memory.  
+There are 4 configurations possible, using 32 words worth of memory. As apart of the writing process, the entire row (32 words) must be erased, however. The save functions cache the entire row before erase, apply changes, then rewrite all of the row.
 
 <img src="images/memoryPacking.png" width="500px"><br>
 *Figure 6 - Memory Formatting and Packing*<br>
@@ -224,14 +238,15 @@ There are 4 configurations possible, using 16 words worth of memory. As apart of
 | ERROR_READ_OVERRUN    | 0x01     | Attempted read at an invalid address, but started on a valid address.
 | ERROR_WRITE_OVERRUN   | 0x02     | Attempted write at an invalid location, but started on a valid address.
 | ERROR_INVALID_READ_OP | 0x03     | Attempted read at an invalid address.
-| ERROR_WRITE_ADDR      | 0x04     | Attempted write at an invalid address.
+| ERROR_INVALID_WRITE_OP| 0x04     | Attempted write at an invalid address.
 | ERROR_NON_ADDRESS     | 0x05     | Incorrect address received during I<sup>2</sup>C addressing, however interrupt triggered. Should never occur.
-| ERROR_UNUSED          | 0x06     | Placeholder Error Code - to be replaced
+| ERROR_INVALID_ACCESS  | 0x06     | Attempted to directly access UNLOCK1/2.  
 | ERROR_ILLEGAL_MEM_OP  | 0x07     | `runMemoryOP()` was called even though `isPendingMemoryOP()` returned false.
 | ERROR_MEM_OP_FAILED   | 0x08     | No error has occurred. Default Condition.
 | ERROR_MEM_OP_ABORTED  | 0x09     | `isPendingMemoryOP()` detected an error was set after unlocking and aborted the memory OP.
 | ERROR_MEM_INVALID_SEQ | 0x0A     | An invalid sequence was provided to unlock the memory.
-| ERROR_INVALID_ACCESS  | 0x0B     | Attempted to directly access UNLOCK1/2.  
+| ERROR_CRC_FAILED      | 0x0B     | The memory that was loaded did not match the CRC value.
+| ERROR_WRITE_VERIFY    | 0x0C     | The memory written to the row does not match the internal copy of the memory to write.
 
 ## Summary
 The PIC16-152 is perfect for building intelligent and flexible I/O expanders that enable more feature rich systems that can do more with less.

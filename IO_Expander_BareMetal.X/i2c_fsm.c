@@ -99,6 +99,10 @@ void handle_I2C_ISR(void)
             {
                 //Address
                 addr = rx;
+                if ((addr == UNLOCK1_MEM) || (addr == UNLOCK2_MEM))
+                {
+                    setErrorCode(ERROR_INVALID_ACCESS);
+                }
             }
             else
             {
@@ -112,7 +116,7 @@ void handle_I2C_ISR(void)
                 {
                     //Initial Bad Write ADDR
                     //After this byte, the error is an overrun
-                    setErrorCode(ERROR_WRITE_ADDR);
+                    setErrorCode(ERROR_INVALID_WRITE_OP);
                 }
             }
             SSP1CON2bits.ACKDT = !OPERATION_SUCCESS();
