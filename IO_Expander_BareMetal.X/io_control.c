@@ -7,11 +7,6 @@
 
 void initIO(void)
 {
-    //TESTING USE ONLY - REMOVE BEFORE PUSH
-    TRISA1 = 0;
-    LATA1 = 0;
-    ANSELAbits.ANSA1 = 0;
-    
 #ifdef CONFIG_ON_BOOT
     
     loadBootConfig();

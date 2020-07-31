@@ -133,9 +133,7 @@ void __interrupt() ISR(void)
     {
         //Clear the interrupt
         clearI2Cinterrupt();
-        LATA1 = 1;
         handle_I2C_ISR();
-        LATA1 = 0;
     }
     
 }
