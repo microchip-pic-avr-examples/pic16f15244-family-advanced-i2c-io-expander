@@ -4,6 +4,7 @@
 #include "interrupt.h"
 #include "status.h"
 #include "data_control.h"
+#include "memory_control.h"
 
 #include "constants.h"
 #include <xc.h>
@@ -40,9 +41,11 @@ void handle_I2C_ISR(void)
         bCount = 0;
         
         status.field = 0x00;
-        
+
         //Release the Interrupt Line (if asserted)
         release_INT();
+        
+        //enableIOCinterrupt();
         
         if (addr == I2C_UPDATE_ADDR)
         {
@@ -61,7 +64,7 @@ void handle_I2C_ISR(void)
     else if ((SSP1STATbits.S) && (!SSP1STATbits.BF) && ((!SSP1CON3bits.ACKTIM) && (status.STATE == 0)))
     {
         //Start is enabled, no buffered data, no ACK/NACK yet, and no STOP
-        
+                
         //Start Condition
         status.STARTED = 1;
         bCount = 0;
@@ -70,18 +73,14 @@ void handle_I2C_ISR(void)
     {
         status.STATE = 1;
         //Clear any former errors
-        CLEAR_OP_SUCCESS();
+        
         
         uint8_t rx = SSP1BUF;
         //Buffer Full
         if (bCount == 0)
         {
-            //Address Byte
-            if ((rx & 0xFE) != getI2CAddress())
-            {
-                setErrorCode(ERROR_NON_ADDRESS);
-            }
-
+            CLEAR_OP_SUCCESS();
+            
             if (SSP1STATbits.RW)
             {
                 //Test read of data - will set an error if it fails

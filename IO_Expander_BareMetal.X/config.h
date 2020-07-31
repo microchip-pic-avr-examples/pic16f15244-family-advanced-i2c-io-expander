@@ -57,7 +57,7 @@ extern "C" {
 
 //Set the value below to load config 0 on startup, rather than defaults.
 //NOTE: IF THE CONFIG FAILS CRC, THE DEFAULTS WILL BE LOADED!
-#define CONFIG_ON_BOOT
+//#define CONFIG_ON_BOOT
     
 //Default Settings for PORT 1
 #define DEFAULT_TRISx       0xFF

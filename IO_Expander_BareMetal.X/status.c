@@ -28,7 +28,7 @@ void setErrorCode(uint8_t error)
 uint8_t getStatus(void)
 {
     uint8_t temp = status;
-    status = 0x00;
+    status = ERROR_NONE;
     return temp;
 }
 

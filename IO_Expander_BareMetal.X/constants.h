@@ -13,18 +13,20 @@ extern "C" {
 #define ERROR_WRITE_OVERRUN     2
 #define ERROR_INVALID_READ_OP   3
 #define ERROR_INVALID_WRITE_OP  4  
-#define ERROR_NON_ADDRESS       5
+#define ERROR_UNUSED            5
 #define ERROR_INVALID_ACCESS    6  
 #define ERROR_ILLEGAL_MEM_OP    7
-#define ERROR_MEM_OP_FAILED     8
-#define ERROR_MEM_OP_ABORTED    9
-#define ERROR_MEM_INVALID_SEQ   10
-#define ERROR_CRC_FAILED        11
-#define ERROR_WRITE_VERIFY      12
+#define ERROR_MEM_OP_ABORTED    8
+#define ERROR_MEM_INVALID_SEQ   9
+#define ERROR_CRC_FAILED        10
+#define ERROR_WRITE_VERIFY      11
     
     
 #define MEM_UNLOCK_KEY1         0xA5
 #define MEM_UNLOCK_KEY2         0xF0
+    
+//Invalid Unlock Code
+#define INVALID_UNLOCK          0xFF
     
 //Get ONLY parameters
 #define GET_STATUS   0

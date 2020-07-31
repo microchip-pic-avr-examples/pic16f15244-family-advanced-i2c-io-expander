@@ -16,7 +16,7 @@
 #pragma config BOREN = ON       // Brown-out Reset Enable bits (Brown-out Reset Enabled, SBOREN bit is ignored)
 #pragma config BORV = LO        // Brown-out Reset Voltage Selection bit (Brown-out Reset Voltage (VBOR) set to 1.9V)
 #pragma config PPS1WAY = ON     // PPSLOCKED One-Way Set Enable bit (The PPSLOCKED bit can be set once after an unlocking sequence is executed; once PPSLOCKED is set, all future changes to PPS registers are prevented)
-#pragma config STVREN = OFF      // Stack Overflow/Underflow Reset Enable bit (Stack Overflow or Underflow will cause a reset)
+#pragma config STVREN = ON      // Stack Overflow/Underflow Reset Enable bit (Stack Overflow or Underflow will cause a reset)
 
 // CONFIG3
 
@@ -97,9 +97,10 @@ void main(void) {
                 runMemoryOP();
             }
             
+            //enableIOCinterrupt();
             //Sleep
             SLEEP();
-            __asm("NOP");
+            __asm("NOP");        
         }
         
     }    

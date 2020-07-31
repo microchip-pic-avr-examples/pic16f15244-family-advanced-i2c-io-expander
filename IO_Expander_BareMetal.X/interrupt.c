@@ -125,15 +125,17 @@ void __interrupt() ISR(void)
     {
         //Set the IOC flags
         setIOC_PORT_flags();   
+        clearIOCinterrupt();
         
         assert_INT();                 //Assert the INT signal
-        clearIOCinterrupt();
     }
     if (PIR1bits.SSP1IF)   //I2C
     {
         //Clear the interrupt
         clearI2Cinterrupt();
+        LATA1 = 1;
         handle_I2C_ISR();
+        LATA1 = 0;
     }
     
 }

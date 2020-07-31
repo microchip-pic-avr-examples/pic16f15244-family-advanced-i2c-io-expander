@@ -169,8 +169,6 @@ For all memory operations, the following sequence must be followed:
  5. Stop the I<sup>2</sup>C bus
  6. Wait for INT to be asserted
 
-**Important! If the unlocking sequence is done incorrectly (wrong passed values), then the memory OP and INT assert will never occur. The device will continue to function.** <br>
-
  When followed, the device will execute the programmed memory operation (see Memory Operation Byte for details) and assert the INT line when it has completed. The address selected at the completion is STATUS (0x00). A read operation can be run immediately following the memory write without the need to set the address.<br><br>
 
  **Important! If an error occurs before the memory operation, then the operation will not occur. The INT line will still be asserted and the address selected will be set to STATUS (0x00).**<br>
@@ -239,14 +237,13 @@ There are 4 configurations possible, using 32 words worth of memory. As apart of
 | ERROR_WRITE_OVERRUN   | 0x02     | Attempted write at an invalid location, but started on a valid address.
 | ERROR_INVALID_READ_OP | 0x03     | Attempted read at an invalid address.
 | ERROR_INVALID_WRITE_OP| 0x04     | Attempted write at an invalid address.
-| ERROR_NON_ADDRESS     | 0x05     | Incorrect address received during I<sup>2</sup>C addressing, however interrupt triggered. Should never occur.
+| ERROR_UNUSED          | 0x05     | Not used currently.
 | ERROR_INVALID_ACCESS  | 0x06     | Attempted to directly access UNLOCK1/2.  
-| ERROR_ILLEGAL_MEM_OP  | 0x07     | `runMemoryOP()` was called even though `isPendingMemoryOP()` returned false.
-| ERROR_MEM_OP_FAILED   | 0x08     | No error has occurred. Default Condition.
-| ERROR_MEM_OP_ABORTED  | 0x09     | `isPendingMemoryOP()` detected an error was set after unlocking and aborted the memory OP.
-| ERROR_MEM_INVALID_SEQ | 0x0A     | An invalid sequence was provided to unlock the memory.
-| ERROR_CRC_FAILED      | 0x0B     | The memory that was loaded did not match the CRC value.
-| ERROR_WRITE_VERIFY    | 0x0C     | The memory written to the row does not match the internal copy of the memory to write.
+| ERROR_ILLEGAL_MEM_OP  | 0x07     | A memory OP was set, but not properly unlocked.
+| ERROR_MEM_OP_ABORTED  | 0x08     | `isPendingMemoryOP()` detected an error was set after unlocking and aborted the memory OP.
+| ERROR_MEM_INVALID_SEQ | 0x09     | An invalid sequence was provided to unlock the memory.
+| ERROR_CRC_FAILED      | 0x0A     | The memory that was loaded did not match the CRC value.
+| ERROR_WRITE_VERIFY    | 0x0B     | The memory written to the row does not match the internal copy of the memory to write.
 
 ## Summary
 The PIC16-152 is perfect for building intelligent and flexible I/O expanders that enable more feature rich systems that can do more with less.

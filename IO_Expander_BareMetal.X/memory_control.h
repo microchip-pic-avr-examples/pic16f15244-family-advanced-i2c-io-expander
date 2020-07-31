@@ -47,9 +47,16 @@ extern "C" {
     /** 
      * <B><FONT COLOR=BLUE>uint8_t</FONT> isPendingMemoryOP(<FONT COLOR=BLUE>void</FONT>)</B>
      * 
-     * Returns 1 if a memory OP is ready, or 0 if no OP is ready to be performed.
+     * Returns 1 if a memory OP was received, or 0 if no ops were sent.
      *  */
     uint8_t isPendingMemoryOP(void);
+    
+    /** 
+     * <B><FONT COLOR=BLUE>uint8_t</FONT> isValidMemoryUnlock(<FONT COLOR=BLUE>void</FONT>)</B>
+     * 
+     * Returns 1 if a memory OP is unlocked. Returns 0 if no op or if not unlocked.
+     *  */
+    uint8_t isValidMemoryUnlock(void);
     
     /** 
      * <B><FONT COLOR=BLUE>void</FONT> runMemoryOP(<FONT COLOR=BLUE>void</FONT>)</B>

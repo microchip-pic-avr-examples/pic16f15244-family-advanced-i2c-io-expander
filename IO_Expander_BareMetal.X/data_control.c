@@ -54,14 +54,11 @@ void write_data(uint8_t pos, uint8_t data)
 
 uint8_t read_data(uint8_t pos)
 {
-    //return 0xAA;
     switch (pos)
     {
         case GET_STATUS:
             return getStatus();
         case GET_IOCx:
-            //Release the Interrupt Line (if asserted)
-            release_INT();
             return getIOC_PORT_flags();
         case GET_PORT: //Begin PORT 1 functions
             return getPORT_PORT();

@@ -35,33 +35,33 @@ void initMemoryControl(void)
 
 void writeKey(uint8_t key)
 {
-    if (unlockSeq == 0x00)
+    if (unlockSeq == 1)
     {
         if (key == MEM_UNLOCK_KEY1)
-        {
-            unlockSeq = 1;
-        }
-        else
-        {
-            unlockSeq = 0;
-            setErrorCode(ERROR_MEM_INVALID_SEQ);
-        }
-    }
-    else if (unlockSeq == 1)
-    {
-        if (key == MEM_UNLOCK_KEY2)
         {
             unlockSeq = 2;
         }
         else
         {
-            unlockSeq = 0;
+            unlockSeq = INVALID_UNLOCK;
+            setErrorCode(ERROR_MEM_INVALID_SEQ);
+        }
+    }
+    else if (unlockSeq == 2)
+    {
+        if (key == MEM_UNLOCK_KEY2)
+        {
+            unlockSeq = 3;
+        }
+        else
+        {
+            unlockSeq = INVALID_UNLOCK;
             setErrorCode(ERROR_MEM_INVALID_SEQ);
         }
     }
     else
     {
-        unlockSeq = 0; 
+        unlockSeq = INVALID_UNLOCK; 
         setErrorCode(ERROR_MEM_INVALID_SEQ);
     }
 }
@@ -69,6 +69,7 @@ void writeKey(uint8_t key)
 void setMemoryOP(uint8_t op)
 {
     MEMORY_TARGET.field = op;
+    unlockSeq = 1;
 }
 
 void clearUnlock(void)
@@ -78,7 +79,17 @@ void clearUnlock(void)
 
 uint8_t isPendingMemoryOP(void)
 {
-    if (unlockSeq == 2)
+    if (unlockSeq > 0)
+    {
+        return 1;
+    }
+    
+    return 0;
+}
+
+uint8_t isValidMemoryUnlock(void)
+{
+    if (unlockSeq == 3)
     {
         //If an error occurred on device, abort the write, even if unlocked
         if (!OPERATION_SUCCESS())
@@ -92,15 +103,16 @@ uint8_t isPendingMemoryOP(void)
         }
         return 1;
     }
+    setErrorCode(ERROR_ILLEGAL_MEM_OP);
+    clearUnlock();
     return 0;
 }
 
 void runMemoryOP(void)
 {
     reset_I2C_addr();
-    if (!isPendingMemoryOP())
+    if (!isValidMemoryUnlock())
     {
-        setErrorCode(ERROR_ILLEGAL_MEM_OP);
         assert_INT();
         return;
     }
@@ -285,8 +297,7 @@ void _write_row(void)
     NVMCON1 = 0x00;
     NVMCON1bits.NVMREGS = 0;
 
-    NVMADRH = 0x07;
-    NVMADRL = 0xE0;
+    NVMADR = MEM_START;
     
     NVMCON1bits.FREE = 0;
     NVMCON1bits.LWLO = 1;
@@ -324,8 +335,7 @@ void _read_row(void)
     NVMCON1 = 0x00;
     NVMCON1bits.NVMREGS = 0;    //Select User Memory
     
-    NVMADRH = 0x07;
-    NVMADRL = 0xE0;
+    NVMADR = MEM_START;
     
     for (uint8_t i = 0; i < 32; ++i)
     {
@@ -343,8 +353,7 @@ void _verify_row(void)
     NVMCON1 = 0x00;
     NVMCON1bits.NVMREGS = 0;    //Select User Memory
     
-    NVMADRH = 0x07;
-    NVMADRL = 0xE0;
+    NVMADR = MEM_START;
     
     for (uint8_t i = 0; i < 32; ++i)
     {

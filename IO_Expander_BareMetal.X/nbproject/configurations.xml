@@ -15,6 +15,7 @@
       <itemPath>config.h</itemPath>
       <itemPath>CRC.h</itemPath>
       <itemPath>utility.h</itemPath>
+      <itemPath>i2c_queue.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -32,6 +33,7 @@
       <itemPath>memory_control.c</itemPath>
       <itemPath>data_control.c</itemPath>
       <itemPath>CRC.c</itemPath>
+      <itemPath>i2c_queue.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -203,6 +205,10 @@
         <property key="stack-type" value="compiled"/>
         <property key="user-pack-device-support" value=""/>
       </XC8-config-global>
+      <item path="i2c_queue.c" ex="true" overriding="false">
+      </item>
+      <item path="i2c_queue.h" ex="true" overriding="false">
+      </item>
       <pk4hybrid>
         <property key="AutoSelectMemRanges" value="auto"/>
         <property key="Freeze Peripherals" value="true"/>
