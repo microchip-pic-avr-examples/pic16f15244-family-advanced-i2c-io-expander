@@ -51,10 +51,7 @@ void main(void) {
     
     //Run at 4MHz for 100kHz I2C
     SET_OSC_FREQ(0b010);
-    
-    //Remove - Only for debugging 
-    PCON0 = 0b00011111;
-    
+
     //Init Device Status + Error Registers
     initStatus();
     
