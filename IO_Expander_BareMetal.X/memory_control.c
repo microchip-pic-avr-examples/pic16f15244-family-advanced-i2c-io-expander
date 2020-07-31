@@ -110,14 +110,18 @@ uint8_t isValidMemoryUnlock(void)
 
 void runMemoryOP(void)
 {
+    disableInterrupts();
+    release_INT();
     reset_I2C_addr();
+    
     if (!isValidMemoryUnlock())
     {
+        clearI2Cinterrupt();
+        enableInterrupts();
         assert_INT();
         return;
     }
     
-    disableInterrupts();
     
     //Clear the unlock to keep it from rewriting
     clearUnlock();
@@ -129,71 +133,43 @@ void runMemoryOP(void)
         _read_row();
     }
     
-    //If the load bit is set
-//    if (MEMORY_TARGET.OP >= 0b10)
-//    {
-//         //Set the pin state while loading memory
-//        if (MEMORY_TARGET.BEHAVIOR == 0b01)
-//        {
-//            //Output Low
-//
-//            setPORT_TRIS(0x00);
-//            setPORT_LAT(0x00);
-//
-//        }
-//        else if (MEMORY_TARGET.BEHAVIOR == 0b10)
-//        {
-//            //Output High
-//
-//            setPORT_TRIS(0x00);
-//            setPORT_LAT(0xFF);
-//        }
-//        else if (MEMORY_TARGET.BEHAVIOR == 0b11)
-//        {
-//            //Tri-State
-//
-//            setPORT_TRIS(0xFF);
-//        }
-//    }
-    
     switch(MEMORY_TARGET.OP)
     {
-        case 0b00:
+        case 0b00:  //Reset to defaults
         {
-            //Reinit IO 
             resetIO();
             break;
         }
-        case 0b01:
+        case 0b01:  //Save
         {
-            //Save
-            
-            _erase_row();
-            
             //Make Changes
             _apply_configuration();
+            
+            //Erase memory
+            _erase_row();
             
             //Apply changes
             _write_row();
             
             break;
         }
-        case 0b10:
+        case 0b10:  //Load
         {
-            //Load
+            //Set the pin state
+            _setPinState();
             
             //Load Configuration
             _load_configuration();
             
             break;
         }
-        case 0b11:
+        case 0b11: //Save and Load
         {
-            //Save and Load
-            
-            
             //Make Changes
             _apply_configuration();
+            
+            //Set the pin state
+            _setPinState();
             
             //Erase memory
             _erase_row();
@@ -208,6 +184,7 @@ void runMemoryOP(void)
         }
     }
         
+    clearI2Cinterrupt();
     enableInterrupts();
     
     //Indicate Completion 
@@ -314,7 +291,10 @@ void _write_row(void)
 
         __unlockMemory();
         
-        NVMADRL++;
+        if (i != 31)
+        {
+            NVMADRL++;
+        }
     }
     
     NVMCON1bits.LWLO = 0;
@@ -350,6 +330,10 @@ void _read_row(void)
 
 void _verify_row(void)
 {
+    //TESTING ONLY
+    setErrorCode(ERROR_WRITE_VERIFY);
+    return;
+    
     NVMCON1 = 0x00;
     NVMCON1bits.NVMREGS = 0;    //Select User Memory
     
@@ -370,10 +354,7 @@ void _verify_row(void)
 }
 
 void _load_configuration(void)
-{
-    if (!OPERATION_SUCCESS())
-        return;
-    
+{   
     uint8_t checksum = 0x00;
     uint8_t index = (MEMORY_TARGET.SRC << 3);
     uint8_t t_index = 0;
@@ -429,8 +410,35 @@ void _load_configuration(void)
     {
         //Failed
         setErrorCode(ERROR_CRC_FAILED);
-    }
-    
+    }   
+}
+
+void _setPinState(void)
+{
+   //Set the pin state while loading memory
+   if (MEMORY_TARGET.BEHAVIOR == 0b01)
+   {
+       //Output Low
+
+       setPORT_TRIS(0x00);
+       setPORT_LAT(0x00);
+
+   }
+   else if (MEMORY_TARGET.BEHAVIOR == 0b10)
+   {
+       //Output High
+
+       setPORT_TRIS(0x00);
+       setPORT_LAT(0xFF);
+   }
+   else if (MEMORY_TARGET.BEHAVIOR == 0b11)
+   {
+       //Tri-State
+       setPORT_TRIS(0xFF);
+
+        //Shutdown Weak Pullups
+       setPORT_WPU(0x00);
+   }
 }
 
 void loadBootConfig(void)

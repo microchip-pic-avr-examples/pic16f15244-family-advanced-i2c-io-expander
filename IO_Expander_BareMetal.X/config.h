@@ -72,9 +72,9 @@ extern "C" {
 //Comment out this line to disable OPEN DRAIN for INT PIN
 //#define ENABLE_OPEN_DRAIN
     
-#define INT_LAT     LATA4
-#define INT_TRIS    TRISA4
-#define INT_ODCON   ODCA4
+#define INT_LAT     LATA5
+#define INT_TRIS    TRISA5
+#define INT_ODCON   ODCA5
 
 
 #ifdef	__cplusplus

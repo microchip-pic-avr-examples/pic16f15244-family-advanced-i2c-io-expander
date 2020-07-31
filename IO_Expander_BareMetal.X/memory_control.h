@@ -123,6 +123,13 @@ extern "C" {
     void _load_configuration(void);
     
     /** 
+     * <B><FONT COLOR=BLUE>void</FONT> _setPinState(<FONT COLOR=BLUE>void</FONT>)</B>
+     * 
+     * This function sets the pin state to the bits (BH) in the memory OP.
+     *  */
+    void _setPinState(void);
+    
+    /** 
      * <B><FONT COLOR=BLUE>void</FONT> loadBootConfig(<FONT COLOR=BLUE>void</FONT>)</B>
      * 
      * This function sets the I/O to config 0 on startup. 

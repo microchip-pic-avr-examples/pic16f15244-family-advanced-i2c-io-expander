@@ -36,7 +36,7 @@ void handle_I2C_ISR(void)
     SSP1CON2bits.ACKDT = 0;
     
     if (SSP1STATbits.P)
-    {
+    {        
         //Stop Interrupt
         bCount = 0;
         
