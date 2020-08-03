@@ -96,7 +96,7 @@ After addressing the device, the device will always ACK. The 1st data byte sent 
 
 **Important! IF data is written to a non-writable location (Read Only, Invalid, or Select Only regions), then the device will NACK and set an error code in the STATUS register.**
 
-<img src="images/I2C_write.png" width="100%"><br>
+<img src="images/I2C_write.png"><br>
 *Figure 2 - I<sup>2</sup>C Example Write*<br>
 
 #### Reading from the Device
@@ -110,7 +110,7 @@ Each successive byte after this is the returned value in each command register. 
 
 Figure 3 (below) shows a sequential read of 2 addresses.
 
-<img src="images/I2C_read.png" width=100%><br>
+<img src="images/I2C_read.png"><br>
 *Figure 3 - I<sup>2</sup>C Example Read*<br>
 
 
