@@ -49,10 +49,7 @@ void initI2C(void)
 }
 
 void setupI2Cpins(void)
-{
-    //RC3 for SCL1
-    //RC4 for SDA1
-    
+{    
     //Pins are Inputs
     TRISB6 = 1;
     TRISB4 = 1;
@@ -83,11 +80,6 @@ void setupI2Cpins(void)
     I2C_ADDR_PIN1_ANSEL = 0;
     I2C_ADDR_PIN2_ANSEL = 0;
 #endif
-}
-
-uint8_t getI2CAddress(void)
-{
-    return SSP1ADD;
 }
 
 void _setI2CAddress(void)

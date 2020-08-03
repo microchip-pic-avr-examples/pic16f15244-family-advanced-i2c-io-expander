@@ -26,7 +26,7 @@ extern "C" {
      * 
      * This functions returns the current I2C address.
      *  */
-    uint8_t getI2CAddress(void);
+    #define getI2CAddress() SSP1ADD
     
     /** 
      * <B><FONT COLOR=BLUE>uint8_t</FONT> _setI2CAddress(<FONT COLOR=BLUE>void</FONT>)</B>
