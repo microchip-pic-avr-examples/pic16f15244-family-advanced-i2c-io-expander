@@ -78,15 +78,6 @@ void enableIOCinterrupts_PORT_pos_pins(uint8_t pins)
 {    
     //Enable Positive Edge IOC for selected pins
     IOCxP = pins;
-    
-    if ((!isIOC_enabled()) && ((IOCxP != 0x00) || (IOCxN != 0x00)))
-    {
-        enableIOCinterrupt();
-    }
-    else if ((isIOC_enabled()) && (IOCxP == 0x00) && (IOCxN == 0x00))
-    {
-        disableIOCinterrupt();
-    }
 }
 
 uint8_t getIOCinterrupts_PORT_pos_pins(void)
@@ -98,15 +89,6 @@ void enableIOCinterrupts_PORT_neg_pins(uint8_t pins)
 {
     //Enable Negative Edge IOC for selected pins
     IOCxN = pins;
-    
-    if ((!isIOC_enabled()) && ((IOCxP != 0x00) || (IOCxN != 0x00)))
-    {
-        enableIOCinterrupt();
-    }
-    else if ((isIOC_enabled()) && (IOCxP == 0x00) && (IOCxN == 0x00))
-    {
-        disableIOCinterrupt();
-    }
 }
 
 uint8_t getIOCinterrupts_PORT_neg_pins(void)

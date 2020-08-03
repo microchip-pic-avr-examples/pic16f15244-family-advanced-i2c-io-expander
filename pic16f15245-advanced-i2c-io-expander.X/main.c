@@ -69,6 +69,9 @@ void main(void) {
     
     //Init FSM
     init_I2C_FSM();
+    
+    //Enable Interrupt on Change
+    enableIOCinterrupt();
         
     //Enable Interrupts
     enableInterrupts();
