@@ -16,22 +16,33 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 
 ## Hardware Used
 
-### With the PIC16F15245
+### With the PIC16F15245 on a Curiosity LPC Board
 
-* <a href="https://www.microchip.com/DevelopmentTools/ProductDetails/PartNO/DM164137"> Microchip Low Pin Count Curiosity, PN: DM164137</a>
-**Important:** RC0 is connected to a potentiometer on RC0. This may cause the pin to be stuck at Vdd/Vss.
+* <a href="https://www.microchip.com/DevelopmentTools/ProductDetails/PartNO/DM164137"> Microchip Low Pin Count Curiosity, PN: DM164137</a><br><br>
 
-### With the Curiosity Nano
+**Important:**
+1. RC0 is connected to a potentiometer on RC0. This may cause the pin to be stuck at Vdd/Vss.<br>
+2. RC1 is connected to the mTouch(TM) button. It is possible to couple enough charge through this button to trigger the IOC circuit on this pin.
+
+### With the Curiosity Nano (PIC16F15244)
 
 * <a href="#"> Microchip Curiosity Nano, PN: ???</a>
+
+**Important setup instructions:**
+1. Change the build configuration to the appropriate configuration ending with PIC16F15244.
+
+<img src="images/configurationChange.PNG">
+
+2. In config.h, change the macro `#define MEM_START 0x1F80` to `#define MEM_START 0xF80`.
+3. Run Build and Clean on the project. (Hammer + Broom on the toolbar)
+
+<br>
 
 ### Common Parts
 
 * <a href="https://www.microchip.com/developmenttools/ProductDetails/PartNO/ADM00559"> I<sup>2</sup>C Master Device (or for easy testing, an MCP2221A USB-UART/I<sup>2</sup>C breakout module, PN: ADM00559)</a>
 
 ## Table of Contents
-
-<br>
 
 * [Setup](#setup)
   * [Wiring](#wiring)
@@ -70,10 +81,12 @@ On the PIC16-152, the default positions for the pins and ports are:
 | SDA       | RB4
 | SCL       | RB6
 | INT       | RB5
-| ADDR0     | Rxy
-| ADDR1     | Rxy
-| ADDR2     | Rxy
+| ADDR0     | RA0
+| ADDR1     | RA1
+| ADDR2     | RA2
 | I/O       | PORTC
+
+*Note: Non-I<sup>2</sup>C locations can be changed in config.h*
 
 ### Default I<sup>2</sup>C settings
 
@@ -170,7 +183,7 @@ For all memory operations, the following sequence must be followed:
  5. Stop the I<sup>2</sup>C bus
  6. Wait for INT to be asserted
 
- **Important! If I2C communication is started during a memory write, the bus may become stuck due to the driver missing an interrupt. This is especially important if using the MCP2221A device, which cannot sense INT. In the utility, you must set a delay (100ms or more is recommended) to ensure enough time is given for the operation. The device can be recovered by RESET.**
+ **Important! If I<sup>2</sup>C communication with the device is started during a memory write, the bus may become stuck due to the driver missing an interrupt. This is especially important if using the MCP2221A device, which cannot sense INT. In the I<sup>2</sup>C terminal, you must set a delay (100ms or more is recommended) to ensure enough time is given for the operation. The device can be recovered by pulling the MCLR (reset) line low.**
 
  When followed, the device will execute the programmed memory operation (see Memory Operation Byte for details) and assert the INT line when it has completed. The address selected at the completion is STATUS (0x00). A read operation can be run immediately following the memory write without the need to set the address.<br><br>
 

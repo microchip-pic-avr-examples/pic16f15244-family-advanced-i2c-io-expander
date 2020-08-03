@@ -62,7 +62,7 @@ extern "C" {
 //Default Settings for PORT 1
 #define DEFAULT_TRISx       0xFF
 #define DEFAULT_LATx        0x00
-#define DEFAULT_WPUx        0x00
+#define DEFAULT_WPUx        0xFF
 #define DEFAULT_INLVLx      0x00
 #define DEFAULT_SLRCONx     0xFF
 #define DEFAULT_ODCONx      0x00
@@ -70,7 +70,7 @@ extern "C" {
 //INT Pin Settings
     
 //Comment out this line to disable OPEN DRAIN for INT PIN
-//#define ENABLE_OPEN_DRAIN
+#define ENABLE_OPEN_DRAIN
     
 #define INT_LAT     LATA5
 #define INT_TRIS    TRISA5
