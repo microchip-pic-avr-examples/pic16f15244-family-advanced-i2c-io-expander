@@ -277,7 +277,7 @@ There are 4 configurations possible, using 32 words worth of memory. As apart of
 | ERROR_UNUSED          | 0x05     | Not used currently.
 | ERROR_INVALID_ACCESS  | 0x06     | Attempted to directly access UNLOCK1/2.  
 | ERROR_ILLEGAL_MEM_OP  | 0x07     | A memory OP was set, but not properly unlocked.
-| ERROR_MEM_OP_ABORTED  | 0x08     | `isPendingMemoryOP()` detected an error was set after unlocking and aborted the memory OP.
+| ERROR_MEM_OP_ABORTED  | 0x08     | `isValidMemoryUnlock()` detected an error was set after unlocking and aborted the memory OP.
 | ERROR_MEM_INVALID_SEQ | 0x09     | An invalid sequence was provided to unlock the memory.
 | ERROR_CRC_FAILED      | 0x0A     | The memory that was loaded did not match the CRC value.
 | ERROR_WRITE_VERIFY    | 0x0B     | The memory written to the row does not match the internal copy of the memory to write.
