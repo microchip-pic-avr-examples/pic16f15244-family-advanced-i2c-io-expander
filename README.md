@@ -1,7 +1,7 @@
 <!-- Please do not change this html logo with link -->
 <a href="https://www.microchip.com" rel="nofollow"><img src="images/microchip.png" alt="MCHP" width="300"/></a>
 
-# I<sup>2</sup>C 8-Bit I/O Expander with PIC16F15245
+# Advanced I<sup>2</sup>C 8-Bit I/O Expander with PIC16F15245
 One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to create a full-featured serial bus. This code example leverages this fact to create an advanced 8-bit I/O extender using the MSSP module, along with powerful other features such as Interrupt on Change (IOC) and the Program Flash Memory (PFM) to store and switch between different I/O configurations.
 
 ## Related Documentation
