@@ -19,6 +19,7 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 ### With the PIC16F15245
 
 * <a href="https://www.microchip.com/DevelopmentTools/ProductDetails/PartNO/DM164137"> Microchip Low Pin Count Curiosity, PN: DM164137</a>
+**Important:** RC0 is connected to a potentiometer on RC0. This may cause the pin to be stuck at Vdd/Vss.
 
 ### With the Curiosity Nano
 
@@ -168,6 +169,8 @@ For all memory operations, the following sequence must be followed:
  4. Write 0xF0
  5. Stop the I<sup>2</sup>C bus
  6. Wait for INT to be asserted
+
+ **Important! If I2C communication is started during a memory write, the bus may become stuck due to the driver missing an interrupt. This is especially important if using the MCP2221A device, which cannot sense INT. In the utility, you must set a delay (100ms or more is recommended) to ensure enough time is given for the operation. The device can be recovered by RESET.**
 
  When followed, the device will execute the programmed memory operation (see Memory Operation Byte for details) and assert the INT line when it has completed. The address selected at the completion is STATUS (0x00). A read operation can be run immediately following the memory write without the need to set the address.<br><br>
 
