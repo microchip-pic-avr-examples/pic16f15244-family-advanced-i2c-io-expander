@@ -2,11 +2,12 @@
 <a href="https://www.microchip.com" rel="nofollow"><img src="images/microchip.png" alt="MCHP" width="300"/></a>
 
 # I<sup>2</sup>C 8-Bit I/O Expander with PIC16F15245
-One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to create a full-featured serial bus. This code example leverages this fact to create an 8-bit I/O extender using the MSSP module, along with powerful other features such as Interrupt on Change (IOC) and the Program Flash Memory (PFM) to store and switch between different I/O configurations.
+One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to create a full-featured serial bus. This code example leverages this fact to create an advanced 8-bit I/O extender using the MSSP module, along with powerful other features such as Interrupt on Change (IOC) and the Program Flash Memory (PFM) to store and switch between different I/O configurations.
 
 ## Related Documentation
 
 * <a href="https://www.microchip.com/wwwproducts/en/PIC16F15245">PIC16F15245 Documentation</a>
+* Code Example: Simple I/O Expander with the PIC16F15245
 
 ## Software Used
 
@@ -15,6 +16,10 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 * PIC16F1xxxx_DFP v1.4.119
 
 ## Hardware Used
+
+### Common Components
+
+* <a href="https://www.microchip.com/developmenttools/ProductDetails/PartNO/ADM00559"> I<sup>2</sup>C Master Device (or for easy testing, an MCP2221A USB-UART/I<sup>2</sup>C breakout module, PN: ADM00559)</a>
 
 ### With the PIC16F15245 on a Curiosity LPC Board
 
@@ -34,13 +39,7 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 <img src="images/configurationChange.PNG"><br>
 
 2. In config.h, change the macro `#define MEM_START 0x1F80` to `#define MEM_START 0xF80`.
-3. Run Build and Clean on the project. (Hammer + Broom on the toolbar)
-
-<br>
-
-### Common Parts
-
-* <a href="https://www.microchip.com/developmenttools/ProductDetails/PartNO/ADM00559"> I<sup>2</sup>C Master Device (or for easy testing, an MCP2221A USB-UART/I<sup>2</sup>C breakout module, PN: ADM00559)</a>
+3. Run Build and Clean on the project. (Hammer + Broom on the toolbar).  
 
 ## Table of Contents
 
@@ -93,6 +92,28 @@ On the PIC16-152, the default positions for the pins and ports are:
 **Speed:** 100kHz<br>
 **Base Address:** 0x60<br>
 
+
+### Default (Non Pin) Settings
+
+| Setting           | Default Value | Description
+| ----------------- | ------------  | --------
+| MEM_START         | 0x1F80        | Location of where the configs are stored in PFM. Must be changed for other memory cuts.
+| I2C_BASE_ADDRESS  | 0x60          | Base address of I<sup>2</sup>C communication. The lower 3-bits should be clear to enable ADDR lines to function.
+| ENABLE_ADDR_LINES | DEFINED       | When defined, the addressing lines are sampled to determine the lower 3-bits of the I<sup>2</sup>C address.
+| CONFIG_ON_BOOT    | DEFINED       | Enables whether the device will attempt to load CONFIG 0 on startup. If not enabled, the device starts with the default settings.
+| ENABLE_OPEN_DRAIN | DEFINED       | If defined, the INT line is an open drain line. A resistor is needed to pull-up the line to Vdd. If not defined, the line is push-pull.
+
+### Default Pin Settings
+
+| Setting           | Default Value | Description
+| ----------------- | ------------  | --------
+| DEFAULT_TRISx     | 0xFF          | Default value of TRIS on the I/O port.
+| DEFAULT_LATx      | 0x00          | Default value in LAT on the I/O port.
+| DEFAULT_WPUx      | 0xFF          | Default value of WPU on the I/O port.
+| DEFAULT_INLVLx    | 0x00          | Default value of INLVL on the I/O port.
+| DEFAULT_SLRCONx   | 0xFF          | Default value of SLRCON on the I/O port.
+| DEFAULT_ODCONx    | 0x00          | Default value of ODCON on the I/O port.
+
 ## Operation
 
 ### Startup
@@ -113,11 +134,11 @@ After addressing the device, the device will always ACK. The 1st data byte sent 
 *Figure 2 - I<sup>2</sup>C Example Write*<br>
 
 #### Reading from the Device
-To read from the device, 2 I<sup>2</sup>C transactions must be executed, a write and a read. The write command sends only a single data byte to indicate the starting address of the read. The I<sup>2</sup>C bus is stopped, and the device is re-addressed. A valid read location will cause the device ACK on the bus.<br>
+To read from the device, 2 I<sup>2</sup>C transactions must be executed, a write and a read. The write command sends only a single data byte to indicate the starting address of the read. The I<sup>2</sup>C bus is stopped, and the device is re-addressed. A valid read location will cause the device to ACK.<br>
 
 **Important! IF the address set in the device is invalid, the device will NACK and set an error code in STATUS.**<br>
 
-Each successive byte after this is the returned value in each command register. On a successful read, the address is incremented.
+Each byte read from the device is the value in the associated register. If the read was successful, then the address is incremented.
 
 **Important! IF the address enters a section of memory where reads are not allowed (Invalid, Write Only, Write Only, or Select Only), then the device sets an error code in STATUS and returns only 0x00 until the end of the transaction. The address is not incremented.**
 
@@ -149,15 +170,15 @@ Figure 4 (below) shows the order of commands on the device and the associated pe
 | ----------- | ------- | ---------- | ---------
 | STATUS      | 0x00    | RO         | Returns the status of the device. Cleared on read.
 | IOCx        | 0x01    | RO         | Returns where an IOC event has occurred. Cleared on read. Pins must have been set as IOC for this bit to be set.
-| PORTx       | 0x02    | RO         | Returns the current digital value on the I/O. If set as an output, then the bit returned is the value of LATx.
+| PORTx       | 0x02    | RO         | Returns the current digital value on the I/O. (If set as an output, then this is normally LATx.)
 | TRISx       | 0x03    | RW         | Read/Writes the value of TRISx on the configured port.
 | LATx        | 0x04    | RW         | Read/Writes the value of LATx on the configured port.
 | IOCxP       | 0x05    | RW         | Read/Writes the pin configuration for rising edges on PORTx.
 | IOCxN       | 0x06    | RW         | Read/Writes the pin configuration for falling edges on PORTx.
-| WPUx       | 0x08    | RW         | Enables internal weak pull-up resistors for the I/O port.
-| INLVLx       | 0x09    | RW         | Sets the input level threshold for the I/O port.
+| WPUx        | 0x08    | RW         | Enables internal weak pull-up resistors for the I/O port.
+| INLVLx      | 0x09    | RW         | Sets the input level threshold for the I/O port.
 | ODCONx      | 0x0A    | RW         | Enables open-drain outputs on the I/O port.
-| SLRCONx      | 0x0B    | RW         | Controls whether or not the slew rate of the I/O port is run at full-speed or reduced-speed. Reduced speed slew rates are beneficial for reducing crosstalk and other sources of electromagnetic noise.
+| SLRCONx     | 0x0B    | RW         | Controls whether or not the slew rate of the I/O port is run at full-speed or reduced-speed. Reduced speed slew rates are beneficial for reducing crosstalk and other sources of electromagnetic noise.
 | MEM OP      | 0xA0    | WO         | Sets the memory operation to execute on the next STOP condition. *See Memory Operations for more details.*
 | UNLOCK1     | N/A     | WO, ID     | Protection sequence to prevent accidental memory operations. Only accessed via sequential writes to MEM OP. **Write 0xA5**.
 | UNLOCK2     | N/A     | WO, ID     | Protection sequence to prevent accidental memory operations. Only accessed via sequential writes to MEM OP. **Write 0xF0**, then STOP.
@@ -239,7 +260,7 @@ Note: This function does not validate that SRC and DST are different. Setting th
 ### Memory Storage
 On the PIC16-152, PFM is 14-bits wide. There are 4 fields that are saved, representing direction (TRISx), output value (LATx), and IOC (IOCxP and IOCxN). For loading the values, a simple CRC-8 checksum is calculated and packed in the high-byte, lower 2-bits of each word as shown in Figure 6. When loading, this checksum is used to determine if the data is valid and uncorrupted.<br>
 
-There are 4 configurations possible, using 32 words worth of memory. As apart of the writing process, the entire row (32 words) must be erased, however. The save functions cache the entire row before erase, apply changes, then rewrite all of the row.
+There are 4 configurations possible, using 32 words worth of memory. As apart of the writing process, the entire row (32 words) must be erased, however. The save functions cache the entire row before erase, apply any changes, then rewrite all of the row.
 
 <img src="images/memoryPacking.png" width="500px"><br>
 *Figure 6 - Memory Formatting and Packing*<br>
@@ -262,4 +283,4 @@ There are 4 configurations possible, using 32 words worth of memory. As apart of
 | ERROR_WRITE_VERIFY    | 0x0B     | The memory written to the row does not match the internal copy of the memory to write.
 
 ## Summary
-The PIC16-152 is perfect for building intelligent and flexible I/O expanders that enable more feature rich systems that can do more with less.
+The PIC16-152 is perfect for building intelligent and flexible I/O expanders that enable more feature rich systems that can do more with fewer parts.
