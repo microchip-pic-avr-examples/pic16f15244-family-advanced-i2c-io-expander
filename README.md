@@ -29,9 +29,9 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 * <a href="#"> Microchip Curiosity Nano, PN: ???</a>
 
 **Important setup instructions:**
-1. Change the build configuration to the appropriate configuration ending with PIC16F15244.
+1. Change the build configuration to the appropriate configuration ending with PIC16F15244.<br>
 
-<img src="images/configurationChange.PNG">
+<img src="images/configurationChange.PNG"><br>
 
 2. In config.h, change the macro `#define MEM_START 0x1F80` to `#define MEM_START 0xF80`.
 3. Run Build and Clean on the project. (Hammer + Broom on the toolbar)
