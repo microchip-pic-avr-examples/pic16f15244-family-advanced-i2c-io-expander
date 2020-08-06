@@ -1,0 +1,73 @@
+{
+    "metaDataVersion": "1.0.0",
+    "category": "com.microchip.ide.project",
+    "content": {
+        "metaDataVersion": "1.1.0",
+        "name": "com.microchip.mcu8.mplabx.project.pic16f15245-i2c-io-expander",
+        "version": "1.0.0",
+        "displayName": "Advanced I/O Expander with PIC16F15245",
+        "projectName": "pic16f15245-i2c-io-expander",
+        "shortDescription": "PIC16F15245 - Advanced I2C controlled I/O Expander",
+        "ide": {
+            "name": "MPLABX",
+            "semverRange": ">=5.40.0"
+        },
+        "compiler": [
+			{
+				"name": "XC8",
+				"semverRange": "^2.20.0"
+			}
+		],
+        "dfp": {
+            "name": "PIC16F1xxxx_DFP",
+            "semverRange": "^1.4.119"
+        },
+        "configurator": {
+            "name": "MCC",
+            "semverRange": ">=3.95.0"
+        },
+        "device": {
+            "metaDataVersion": "1.0.0",
+            "category": "com.microchip.portal.contentRef",
+            "content": {
+                "metaDataVersion": "1.0.0",
+                "category": "com.microchip.device",
+                "name": "PIC16F15245",
+                "versionRange": "*"
+            }
+        },
+        "author": "Microchip",
+        "subcategories": [
+            "MCC",
+            [
+               "Peripherals", "MSSP"
+            ],
+            [
+               "Peripherals", "Memory"
+            ],
+            [
+               "Peripherals", "IOC"
+            ]
+        ],
+        "peripherals": [
+            "MSSP", "Memory", "IOC"
+        ],
+        "keywords": [
+            "MCC",
+            "Bare Metal",
+            "I2C",
+            "I/O Expander"
+        ],
+		"additionalData": {
+			"longDescription": {
+				"metaDataVersion": "1.0.0",
+				"category": "com.microchip.portal.fileRef",
+				"content": {
+					"metaDataVersion": "1.0.0",
+					"fileName": "./README.md",
+					"mimeType": "text/markdown"
+				}
+			}
+		}
+	}
+}
