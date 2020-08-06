@@ -7,7 +7,7 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 ## Related Documentation
 
 * <a href="https://www.microchip.com/wwwproducts/en/PIC16F15245">PIC16F15245 Documentation</a>
-* Code Example: Simple I/O Expander with the PIC16F15245
+* <a href="https://github.com/microchip-pic-avr-examples/pic16f15245-simple-i2c-io-expander">Code Example: Simple I/O Expander with the PIC16F15245</a>
 
 ## Software Used
 
