@@ -30,6 +30,14 @@
                     <name>pro_pic16f15244</name>
                     <type>2</type>
                 </confElem>
+                <confElem>
+                    <name>free_pic16f15243</name>
+                    <type>2</type>
+                </confElem>
+                <confElem>
+                    <name>pro_pic16f15243</name>
+                    <type>2</type>
+                </confElem>
             </confList>
             <formatting>
                 <project-formatting-style>false</project-formatting-style>

@@ -32,11 +32,11 @@ extern "C" {
     void reset_I2C_addr(void);
     
     /** 
-     * <B><FONT COLOR=BLUE>uint8_t</FONT> isActive(<FONT COLOR=BLUE>void</FONT>)</B>
+     * <B><FONT COLOR=BLUE>uint8_t</FONT> isActive_n(<FONT COLOR=BLUE>void</FONT>)</B>
      * 
-     * Returns 1 if the i2c module is active, otherwise returns 0.
+     * Returns 1 if the i2c module is not active, otherwise returns 0.
      *  */
-    uint8_t isActive(void);
+    uint8_t isActive_n(void);
     
 #ifdef	__cplusplus
 }

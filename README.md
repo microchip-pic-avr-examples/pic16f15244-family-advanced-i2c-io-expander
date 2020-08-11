@@ -8,22 +8,24 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 
 * <a href="https://www.microchip.com/wwwproducts/en/PIC16F15245">PIC16F15245 Documentation</a>
 * <a href="https://github.com/microchip-pic-avr-examples/pic16f15245-simple-i2c-io-expander">Code Example: Simple I/O Expander with the PIC16F15245</a>
+* <a href="https://microchip.com/design-centers/8-bit/peripherals/input-output">I/O Peripherals Information</a>
 
 ## Software Used
 
 * <a href="http://www.microchip.com/mplab/mplab-x-ide">MPLAB® IDE 5.40 or newer</a>
 * <a href="https://www.microchip.com/mplab/compilers">Microchip XC8 Compiler 2.20 or newer</a>
-* PIC16F1xxxx_DFP v1.4.119
+* <a href="https://packs.download.microchip.com/">PIC16F1xxxx_DFP v1.4.119</a>
 
 ## Hardware Used
 
 ### Common Components
 
-* <a href="https://www.microchip.com/developmenttools/ProductDetails/PartNO/ADM00559"> I<sup>2</sup>C Master Device (or for easy testing, an MCP2221A USB-UART/I<sup>2</sup>C breakout module, PN: ADM00559)</a>
+* <a href="https://www.microchip.com/developmenttools/ProductDetails/PartNO/ADM00559">MCP2221A USB-UART/I<sup>2</sup>C breakout module, PN: ADM00559</a>
+  * Alternatively, any I<sup>2</sup>C master can be used with this example, however it may require extra programming or setup steps.
 
-### With the PIC16F15245 on a Curiosity LPC Board
+### With the PIC16F1524x on a Curiosity LPC Board
 
-* <a href="https://www.microchip.com/DevelopmentTools/ProductDetails/PartNO/DM164137"> Microchip Low Pin Count Curiosity, PN: DM164137</a><br><br>
+* <a href="https://www.microchip.com/DevelopmentTools/ProductDetails/PartNO/DM164137"> Microchip Low Pin Count Curiosity, Rev. 4. PN: DM164137</a><br><br>
 
 **Important:**
 1. RC0 is connected to a potentiometer on RC0. This may cause the pin to be stuck at Vdd/Vss.<br>
@@ -33,13 +35,15 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 
 * <a href="#"> Microchip Curiosity Nano, PN: ???</a>
 
-**Important setup instructions:**
-1. Change the build configuration to the appropriate configuration ending with PIC16F15244.<br>
+## Solution Setup
+
+1. Change the build configuration to the appropriate configuration ending with the part in use (ex: PIC16F15245).<br>
+  a. If you have a license to use the Pro compiler, select the PRO option to enable code optimizations.<br>
+  b. Otherwise, select the FREE option for no optimizations.<br>
 
 <img src="images/configurationChange.PNG"><br>
 
-2. In config.h, change the macro `#define MEM_START 0x1F80` to `#define MEM_START 0xF80`.
-3. Run Build and Clean on the project. (Hammer + Broom on the toolbar).  
+2. Run Build and Clean on the project. (Hammer + Broom on the toolbar).  
 
 ## Table of Contents
 
@@ -79,7 +83,7 @@ On the PIC16-152, the default positions for the pins and ports are:
 | --------- | ----
 | SDA       | RB4
 | SCL       | RB6
-| INT       | RB5
+| INT       | RA4
 | ADDR0     | RA0
 | ADDR1     | RA1
 | ADDR2     | RA2
@@ -281,6 +285,11 @@ There are 4 configurations possible, using 32 words worth of memory. As apart of
 | ERROR_MEM_INVALID_SEQ | 0x09     | An invalid sequence was provided to unlock the memory.
 | ERROR_CRC_FAILED      | 0x0A     | The memory that was loaded did not match the CRC value.
 | ERROR_WRITE_VERIFY    | 0x0B     | The memory written to the row does not match the internal copy of the memory to write.
+
+## Known Bugs
+
+1. When running an I<sup>2</sup>C read, reading 0 bytes of data breaks the I<sup>2</sup>C Driver.<br>
+    a. The bus can be recovered by resetting the device.
 
 ## Summary
 The PIC16-152 is perfect for building intelligent and flexible I/O expanders that enable more feature rich systems that can do more with fewer parts.

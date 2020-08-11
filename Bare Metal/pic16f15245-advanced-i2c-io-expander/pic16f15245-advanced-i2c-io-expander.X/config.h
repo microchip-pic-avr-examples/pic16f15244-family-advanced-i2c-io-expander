@@ -9,10 +9,18 @@ extern "C" {
 
 /* 
  * Start of config memory row.
- * This address was selected for the PIC16F15245 part.
- * Other devices should verify this address is within the SFA memory region.   
+ * Defines are in the compiler settings
  * */
+    
+#ifdef PIC16F152_45
 #define MEM_START 0x1F80
+#elif PIC16F152_44
+#define MEM_START 0xF80
+#elif PIC16F152_43
+#define MEM_START 0x780
+#else
+#error NO DEVICE SPECIFIED FOR MEM START     
+#endif
 
     
 //I2C Parameters
@@ -72,9 +80,9 @@ extern "C" {
 //Comment out this line to disable OPEN DRAIN for INT PIN
 #define ENABLE_OPEN_DRAIN
     
-#define INT_LAT     LATA5
-#define INT_TRIS    TRISA5
-#define INT_ODCON   ODCA5
+#define INT_LAT     LATA4
+#define INT_TRIS    TRISA4
+#define INT_ODCON   ODCA4
 
 
 #ifdef	__cplusplus

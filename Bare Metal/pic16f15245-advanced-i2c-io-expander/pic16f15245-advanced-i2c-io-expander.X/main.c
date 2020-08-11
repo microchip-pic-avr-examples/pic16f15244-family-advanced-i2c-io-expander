@@ -87,7 +87,7 @@ void main(void) {
     {
         //I2C Idle
         
-        if (isActive())
+        if (isActive_n())
         {
             if (isPendingMemoryOP())
             {

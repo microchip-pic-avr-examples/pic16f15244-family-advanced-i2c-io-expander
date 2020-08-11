@@ -330,10 +330,6 @@ void _read_row(void)
 
 void _verify_row(void)
 {
-    //TESTING ONLY
-    setErrorCode(ERROR_WRITE_VERIFY);
-    return;
-    
     NVMCON1 = 0x00;
     NVMCON1bits.NVMREGS = 0;    //Select User Memory
     

@@ -44,9 +44,7 @@ void handle_I2C_ISR(void)
 
         //Release the Interrupt Line (if asserted)
         release_INT();
-        
-        //enableIOCinterrupt();
-        
+                
         if (addr == I2C_UPDATE_ADDR)
         {
             //Refresh Addressing Pins
@@ -139,7 +137,7 @@ void handle_I2C_ISR(void)
     }
 }
 
-uint8_t isActive(void)
+uint8_t isActive_n(void)
 {
     return SSP1STATbits.P;
 }

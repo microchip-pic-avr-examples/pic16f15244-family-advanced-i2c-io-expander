@@ -27,17 +27,6 @@ extern "C" {
      * which returns the appropriate byte to send.
      *  */
     uint8_t read_data(uint8_t pos);
-    
-    /** 
-     * <B><FONT COLOR=BLUE>uint8_t</FONT> isValidAddress(<FONT COLOR=BLUE>uint8_t</FONT> pos)</B>
-     * @param pos (uint8_t) - Address to check
-     * 
-     * This function wraps the core I/O expander functionality by
-     * validating if a read is at a proper address. If it is not,
-     * the global error and op error are set. 
-     * Used to validate if the device should ACK when being asked to TX. 
-     *  */
-    uint8_t isValidAddress(uint8_t addr);
 
 #ifdef	__cplusplus
 }

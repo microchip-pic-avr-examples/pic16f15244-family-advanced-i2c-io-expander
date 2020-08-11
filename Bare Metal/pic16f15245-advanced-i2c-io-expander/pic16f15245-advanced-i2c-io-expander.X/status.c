@@ -25,6 +25,7 @@ void setErrorCode(uint8_t error)
     status = error;
     setOPStatus(error);
 }
+
 uint8_t getStatus(void)
 {
     uint8_t temp = status;
