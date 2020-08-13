@@ -75,6 +75,11 @@ extern "C" {
 #define DEFAULT_SLRCONx     0xFF
 #define DEFAULT_ODCONx      0x00
     
+//Default IOC settings
+//May trigger interrupt due to PORT capacitance and charge time delays on startup
+#define DEFAULT_IOCxP       0x00
+#define DEFAULT_IOCxN       0x00
+    
 //INT Pin Settings
     
 //Comment out this line to disable OPEN DRAIN for INT PIN

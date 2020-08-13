@@ -43,7 +43,9 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 
 <img src="images/configurationChange.PNG"><br>
 
-2. Run Build and Clean on the project. (Hammer + Broom on the toolbar).  
+2. Run Build and Clean on the project. (Hammer + Broom on the toolbar).  <br>
+
+*Important: Run* **Build and Clean** *when the configuration is changed. The cleaning operation clears any old files which may cause compile errors.*
 
 ## Table of Contents
 
@@ -117,6 +119,8 @@ On the PIC16-152, the default positions for the pins and ports are:
 | DEFAULT_INLVLx    | 0x00          | Default value of INLVL on the I/O port.
 | DEFAULT_SLRCONx   | 0xFF          | Default value of SLRCON on the I/O port.
 | DEFAULT_ODCONx    | 0x00          | Default value of ODCON on the I/O port.
+| DEFAULT_IOCxP     | 0x00          | Default enables of rising edge interrupts.
+| DEFAULT_IOCxN     | 0x00          | Default enables of falling edge interrupts.
 
 ## Operation
 
@@ -285,11 +289,6 @@ There are 4 configurations possible, using 32 words worth of memory. As apart of
 | ERROR_MEM_INVALID_SEQ | 0x09     | An invalid sequence was provided to unlock the memory.
 | ERROR_CRC_FAILED      | 0x0A     | The memory that was loaded did not match the CRC value.
 | ERROR_WRITE_VERIFY    | 0x0B     | The memory written to the row does not match the internal copy of the memory to write.
-
-## Known Bugs
-
-1. When running an I<sup>2</sup>C read, reading 0 bytes of data breaks the I<sup>2</sup>C Driver.<br>
-    a. The bus can be recovered by resetting the device.
 
 ## Summary
 The PIC16-152 is perfect for building intelligent and flexible I/O expanders that enable more feature rich systems that can do more with fewer parts.

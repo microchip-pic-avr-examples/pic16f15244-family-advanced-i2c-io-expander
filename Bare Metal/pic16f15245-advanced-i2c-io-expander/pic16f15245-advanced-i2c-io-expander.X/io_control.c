@@ -45,4 +45,8 @@ void resetIO(void)
     SLRCONx = DEFAULT_SLRCONx;
     ODCONx = DEFAULT_ODCONx;
     INLVLx = DEFAULT_INLVLx;
+    
+    //Default IOCs
+    enableIOCinterrupts_PORT_pos_pins(DEFAULT_IOCxP);
+    enableIOCinterrupts_PORT_neg_pins(DEFAULT_IOCxN);
 }

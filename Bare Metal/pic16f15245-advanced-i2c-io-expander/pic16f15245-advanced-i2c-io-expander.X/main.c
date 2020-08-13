@@ -6,7 +6,7 @@
 // CONFIG1
 #pragma config FEXTOSC = OFF    // External Oscillator Mode Selection bits (Oscillator not enabled)
 #pragma config RSTOSC = HFINTOSC_32MHZ// Power-up Default Value for COSC bits (HFINTOSC (32 MHz))
-#pragma config CLKOUTEN = ON   // Clock Out Enable bit (CLKOUT function is disabled; I/O function on RA4)
+#pragma config CLKOUTEN = OFF   // Clock Out Enable bit (CLKOUT function is disabled; I/O function on RA4)
 #pragma config VDDAR = HI       // VDD Range Analog Calibration Selection bit (Internal analog systems are calibrated for operation between VDD = 2.3V - 5.5V)
 
 // CONFIG2

@@ -122,6 +122,8 @@ void runMemoryOP(void)
         return;
     }
     
+    //Clear any prev. device errors.
+    CLEAR_DEVICE_STATUS();
     
     //Clear the unlock to keep it from rewriting
     clearUnlock();
