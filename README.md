@@ -7,7 +7,7 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 ## Related Documentation
 
 * <a href="https://www.microchip.com/wwwproducts/en/PIC16F15245">PIC16F15245 Documentation</a>
-* <a href="https://github.com/microchip-pic-avr-examples/pic16f15245-simple-i2c-io-expander">Code Example: Simple I/O Expander with the PIC16F15245</a>
+* <a href="https://github.com/microchip-pic-avr-examples/pic16f15245-simple-i2c-io-expander">Code Example: Simple I/O Expander with the PIC16F1524x</a>
 * <a href="https://microchip.com/design-centers/8-bit/peripherals/input-output">I/O Peripherals Information</a>
 
 ## Software Used
@@ -18,10 +18,13 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 
 ## Hardware Used
 
-### Common Components
+### Common Components (Select 1 of the following)
 
 * <a href="https://www.microchip.com/developmenttools/ProductDetails/PartNO/ADM00559">MCP2221A USB-UART/I<sup>2</sup>C breakout module, PN: ADM00559</a>
-  * Alternatively, any I<sup>2</sup>C master can be used with this example, however it may require extra programming or setup steps.
+* Arduino UNO
+  * <a href="">Install the Communication Library</a>
+
+*Alternatively, any I<sup>2</sup>C master can be used with this example, however it may require extra programming or setup steps.*
 
 ### With the PIC16F1524x on a Curiosity LPC Board
 
