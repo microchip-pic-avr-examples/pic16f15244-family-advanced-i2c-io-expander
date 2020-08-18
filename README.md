@@ -22,7 +22,7 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 
 * <a href="https://www.microchip.com/developmenttools/ProductDetails/PartNO/ADM00559">MCP2221A USB-UART/I<sup>2</sup>C breakout module, PN: ADM00559</a>
 * Arduino UNO
-  * [Install the Communication Library](/Arduino)
+  * [Install the Communication Library](Arduino/)
 
 *Alternatively, any I<sup>2</sup>C master can be used with this example, however it may require extra programming or setup steps.*
 
