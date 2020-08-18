@@ -40,6 +40,8 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 
 ## Solution Setup
 
+**PIC16F15243 Only: Due to a bug in the compiler, Storage Area Flash must be disabled in the configuration words, otherwise executable code will be placed in a non-executable section of memory.**
+
 1. Change the build configuration to the appropriate configuration ending with the part in use (ex: PIC16F15245).<br>
   a. If you have a license to use the Pro compiler, select the PRO option to enable code optimizations.<br>
   b. Otherwise, select the FREE option for no optimizations.<br>

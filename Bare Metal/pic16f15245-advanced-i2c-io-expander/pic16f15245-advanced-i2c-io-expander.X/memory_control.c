@@ -238,13 +238,7 @@ void _apply_configuration(void)
     }
 }
 
-inline void __unlockMemory(void)
-{
-    NVMCON2 = 0x55;
-    NVMCON2 = 0xAA;
-    
-    NVMCON1bits.WR = 1;
-}
+#define __unlockMemory(void) NVMCON2 = 0x55; NVMCON2 = 0xAA; NVMCON1bits.WR = 1
 
 void _erase_row(void)
 {
