@@ -59,10 +59,7 @@ void clearIOCinterrupt(void)
 }
 
 void resetIOC_pins(void)
-{
-    //Disable IOC interrupts
-    disableIOCinterrupt();
-    
+{    
     //Clear Pin Assignments
     IOCxP = 0x00;
     IOCxN = 0x00;
