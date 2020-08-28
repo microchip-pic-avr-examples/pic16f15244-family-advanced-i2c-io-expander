@@ -1,7 +1,7 @@
 pipeline {
     agent {
         kubernetes {
-            label 'pic16f1524x-advanced-i2c-io-expander'
+            label 'pic16f15244-family-advanced-i2c-io-expander'
 			defaultContainer 'xc8-mplabx'
             yamlFile 'cloudprovider.yml'
         }
@@ -14,8 +14,8 @@ pipeline {
     }
 
 	environment {
-		GITHUB_URL ='https://github.com/microchip-pic-avr-examples/pic16f1524x-advanced-i2c-io-expander.git'
-		BITBUCKET_URL = 'https://bitbucket.microchip.com/scm/ebe/pic16f1524x-advanced-i2c-io-expander.git'
+		GITHUB_URL ='https://github.com/microchip-pic-avr-examples/pic16f15244-family-advanced-i2c-io-expander.git'
+		BITBUCKET_URL = 'https://bitbucket.microchip.com/scm/ebe/pic16f15244-family-advanced-i2c-io-expander.git'
 		DEPLOY_TOOL_URL = 'https://bitbucket.microchip.com/scm/citd/tool-github-deploy.git'
 		DEPLOY_SCRIPT_DIR = 'tool-github-deploy'
 		DEPLOY_SCRIPT_FILE = 'deploy-source-as-is.sh'
