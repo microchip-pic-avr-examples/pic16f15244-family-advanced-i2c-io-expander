@@ -1,3 +1,32 @@
+/*
+ * advanced_io.cpp
+ *
+ * Arduino Library to interface with PIC16F15244 family devices running the
+ * "Advanced I2C I/O Expander Code Example" (pic16f15244-family-advanced-io-expander)
+ *
+
+ (c) 2020 Microchip Technology Inc. and its subsidiaries.
+
+    Subject to your compliance with these terms,you may use this software and
+    any derivatives exclusively with Microchip products.It is your responsibility
+    to comply with third party license terms applicable to your use of third party
+    software (including open source software) that may accompany Microchip software.
+
+    THIS SOFTWARE IS SUPPLIED BY MICROCHIP "AS IS". NO WARRANTIES, WHETHER
+    EXPRESS, IMPLIED OR STATUTORY, APPLY TO THIS SOFTWARE, INCLUDING ANY IMPLIED
+    WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A
+    PARTICULAR PURPOSE.
+
+    IN NO EVENT WILL MICROCHIP BE LIABLE FOR ANY INDIRECT, SPECIAL, PUNITIVE,
+    INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE, COST OR EXPENSE OF ANY KIND
+    WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER CAUSED, EVEN IF MICROCHIP HAS
+    BEEN ADVISED OF THE POSSIBILITY OR THE DAMAGES ARE FORESEEABLE. TO THE
+    FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS IN
+    ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
+    THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
+ *
+ */
+
 #include "advanced_io.h"
 #include "Wire.h"
 
@@ -29,7 +58,7 @@ void PIC16F1524x_IO::onInterrupt()
 	isBusy = false;
 }
 
-PIC16F152x_ERRORS PIC16F1524x_IO::getStatus()
+PIC16F152x_ERRORS PIC16F1524x_IO::getError()
 {
 	return (PIC16F152x_ERRORS)_getField(0x00);
 }
@@ -54,10 +83,12 @@ void PIC16F1524x_IO::setField(PIC16F1524x_IO_FIELDS field, uint8_t data)
 	_setField((uint8_t)field, data);
 }
 
-void PIC16F1524x_IO::setOutputs(uint8_t pins, uint8_t value)
+void PIC16F1524x_IO::setDirectionAndOutput(uint8_t pins, uint8_t value)
 {
-	Wire.beginTransmission(TRISx);
-	Wire.write(~pins);	//For TRIS, 1 = input, 0 = output
+	while (isBusy) { ; }
+	Wire.beginTransmission(addr);
+	Wire.write(TRISx);
+	Wire.write(pins);	//For TRIS, 1 = input, 0 = output
 	Wire.write(value);
 	Wire.endTransmission();
 
@@ -65,6 +96,7 @@ void PIC16F1524x_IO::setOutputs(uint8_t pins, uint8_t value)
 
 void PIC16F1524x_IO::setIOC(uint8_t risingEdges, uint8_t fallingEdges)
 {
+	while (isBusy) { ; }
 	Wire.beginTransmission(IOCxP);
 	Wire.write(risingEdges);	
 	Wire.write(fallingEdges);
@@ -119,6 +151,20 @@ void PIC16F1524x_IO::setPinsAsInput(uint8_t pins)
 	_setField(TRISx, field);
 }
 
+void PIC16F1524x_IO::setPinToOutput(uint8_t pinNum)
+{
+	uint8_t field = _getField(TRISx);
+	field &= ~(0x01 << pinNum);
+	_setField(TRISx, field);
+}
+	
+void PIC16F1524x_IO::setPinToInput(uint8_t pinNum)
+{
+	uint8_t field = _getField(TRISx);
+	field |= (0x01 << pinNum);
+	_setField(TRISx, field);
+}
+
 PIC16F152x_ERRORS PIC16F1524x_IO::loadDefaults(bool blocking)
 {
 	while (isBusy) { ; }
@@ -132,7 +178,7 @@ PIC16F152x_ERRORS PIC16F1524x_IO::loadDefaults(bool blocking)
 	if (blocking)
 	{
 		while (isBusy) { ; }
-		return getStatus();
+		return getError();
 	}
 	return ERROR_NONE;
 }
@@ -156,7 +202,7 @@ PIC16F152x_ERRORS PIC16F1524x_IO::saveConfiguration(uint8_t config, bool blockin
 	if (blocking)
 	{
 		while (isBusy) { ; }
-		return getStatus();
+		return getError();
 	}
 	return ERROR_NONE;
 }
@@ -180,7 +226,7 @@ PIC16F152x_ERRORS PIC16F1524x_IO::loadConfiguration(uint8_t config, bool blockin
 	if (blocking)
 	{
 		while (isBusy) { ; }
-		return getStatus();
+		return getError();
 	}
 	return ERROR_NONE;
 }
@@ -203,7 +249,7 @@ PIC16F152x_ERRORS PIC16F1524x_IO::loadConfiguration(uint8_t config, PIC16F1524x_
 	if (blocking)
 	{
 		while (isBusy) { ; }
-		return getStatus();
+		return getError();
 	}
 	return ERROR_NONE;
 }
@@ -227,7 +273,7 @@ PIC16F152x_ERRORS PIC16F1524x_IO::saveAndLoadConfiguration(uint8_t saveConfig, u
 	if (blocking)
 	{
 		while (isBusy) { ; }
-		return getStatus();
+		return getError();
 	}
 	return ERROR_NONE;
 }
@@ -252,7 +298,7 @@ PIC16F1524x_PIN_OVERRIDE pinOverride, bool blocking)
 	if (blocking)
 	{
 		while (isBusy) { ; }
-		return getStatus();
+		return getError();
 	}
 	return ERROR_NONE;
 }

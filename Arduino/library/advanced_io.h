@@ -1,3 +1,36 @@
+/*
+ * advanced_io.h
+ *
+ * This library is used to establish communication with a PIC16F15244 family device that is running
+ * the "Advanced I2C Code Example", available on Github at the link below:
+
+ * https://github.com/microchip-pic-avr-examples/pic16f1524x-advanced-i2c-io-expander.git
+ 
+ * The most up-to date version of this library and sample code may be obtained from this link as well.
+ *
+
+ (c) 2020 Microchip Technology Inc. and its subsidiaries.
+
+    Subject to your compliance with these terms,you may use this software and
+    any derivatives exclusively with Microchip products.It is your responsibility
+    to comply with third party license terms applicable to your use of third party
+    software (including open source software) that may accompany Microchip software.
+
+    THIS SOFTWARE IS SUPPLIED BY MICROCHIP "AS IS". NO WARRANTIES, WHETHER
+    EXPRESS, IMPLIED OR STATUTORY, APPLY TO THIS SOFTWARE, INCLUDING ANY IMPLIED
+    WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A
+    PARTICULAR PURPOSE.
+
+    IN NO EVENT WILL MICROCHIP BE LIABLE FOR ANY INDIRECT, SPECIAL, PUNITIVE,
+    INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE, COST OR EXPENSE OF ANY KIND
+    WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER CAUSED, EVEN IF MICROCHIP HAS
+    BEEN ADVISED OF THE POSSIBILITY OR THE DAMAGES ARE FORESEEABLE. TO THE
+    FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS IN
+    ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
+    THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
+ *
+ */ 
+
 #ifndef ADVANCED_IO_H
 #define ADVANCED_IO_H
 
@@ -13,10 +46,10 @@ enum PIC16F152x_ERRORS{
 
 /*
 This enumeration contains all of the bitfields that are Read and Write in the Code Example.
-For full explanations of each, please consult the datasheet for the PIC16F524x.
+For full explanations of each, please consult the device datasheet for the PIC16F524x.
 
 Note: For all registers, the "x" refers to the PORT, which is assigned by the developer.
-For the PIC16F524x Code Example, PORTC is used. Thus, a value (such as TRISx or IOCxP) is
+For the Advanced I2C I/O Expander, PORTC is used. Thus, a value (such as TRISx or IOCxP) is
 actually referring to TRISC and IOCCP.
 
 Descriptions
@@ -30,7 +63,7 @@ IOCxN	= Interrupt on Change falling edges. If this bit is set to 1, then a falli
 WPU		= Weak Pull-Up Control. If this bit is set to 1, then weak pull-ups are used on the associated pin. If the pin is an output,
 		the weak pull-ups are disabled.
 INLVL	= Input Threshold Control. If this bit is set, then the threshold for the associated pin is set to schmitt-trigger CMOS,
-		rather than TTL. See Datasheet for more information.
+		rather than TTL. See the device datasheet for more information.
 SLRCON	= Slew Rate Control. If this bit is set, then the slew rate of the associated pin is limited, which may be beneficial
 		for EMI reasons. If this bit is clear, then the associated pin switches as fast as possible.
 ODCON	= Open-Drain Control. If this bit is set, the high-side output driver for the pin is disabled, meaning the associated pin
@@ -53,13 +86,13 @@ enum PIC16F1524x_PIN_OVERRIDE{
 	};
 
 /*
-This class instantiates a driver which enables easy communication with a PIC16F524x,
+This class instantiates a driver which enables easy communication with a PIC16F1524x,
 that is running the "advanced" I2C I/O Expander Code Example (8-bit). This class
 starts the I2C driver for Arduino.
 
 To download the full repository (which includes the most up-to-date version of this library),
-and which includes the code required for the PIC16F524x series device.
-https://github.com/microchip-pic-avr-examples/pic16f15245-advanced-i2c-io-expander.git
+and which includes the code required for the PIC16F5244 family devices (specifically 20-pin versions,
+eg: PIC16F15243, PIC16F15244, PIC16F15245).
 */
 class PIC16F1524x_IO 
 {
@@ -74,30 +107,30 @@ public:
 	//This function changes the I2C Address the library uses to communicate.
 	void setI2CAddress(uint8_t nAddr);
 	
-	//Call this function when this device asserts the INT line
-	//Releases the "isBusy" flag if the device was in a memory OP
+	//Call this function when this device asserts the INT line.
+	//Releases the "isBusy" flag if the device was in a memory OP.
 	void onInterrupt();
   
-	//This function returns the virtual register "STATUS" on the device.
+	//This function returns the virtual register "ERROR" on the device.
 	//If this register is non-zero, then an ERROR has occurred.
-	PIC16F152x_ERRORS getStatus();
+	PIC16F152x_ERRORS getError();
 
 	//This function returns a bit map of any pins which have experienced an "IOC" event.
 	//Internally, this returns the virtual register "IOCx".
 	uint8_t getIOC();
 
-	//This function returns a bi map of all the pin values read from the I/O pin.
-	//Pins that are outputs (and not shorted to the other logic level) should return the output level.
+	//This function returns a bitmap of all the the logic levels at the PORT.
+	//Pins that are outputs (and not shorted to the opposite logic level) should return their output.
 	uint8_t getPORT();
 
 	//GET or SET one of the read/write fields
 	uint8_t getField(PIC16F1524x_IO_FIELDS field);
 	void setField(PIC16F1524x_IO_FIELDS field, uint8_t data);
 	
-	//Sets the pins selected (1 = Output, 0 = input) with an output of value
-	void setOutputs(uint8_t pins, uint8_t value);
+	//Sets the pin direction register (0 = Output, 1 = input) sets the output driver level (if enabled)
+	void setDirectionAndOutput(uint8_t pins, uint8_t value);
 	
-	//Sets the Interrupt-On-Change (IOC) for the pins in each bit map
+	//Sets the Interrupt-On-Change (IOC) for the pins in each bitmap
 	void setIOC(uint8_t risingEdges, uint8_t fallingEdges);
 	
 	//Toggles the output of the selected pins
@@ -112,12 +145,19 @@ public:
 	//PIN must be less than 8 to execute.
 	void digitalWrite(uint8_t pin, bool value);
 	
-	//This function sets the pins in the I/O expander to be an output if the associated bit in (pin) is set.
+	//This function sets the pins in the I/O expander to be an output if the associated bit in (pins) is set.
 	//Does not set the output value.
-	void setPinsAsOutput(uint8_t pin);
+	void setPinsAsOutput(uint8_t pins);
 	
 	//This function sets the pins in the I/O expander to be an input if the associated bit in (pin) is set.
-	void setPinsAsInput(uint8_t pin);
+	void setPinsAsInput(uint8_t pins);
+	
+	//This function sets a pin (at pinNum) to an output.
+	//Does not set the output value.
+	void setPinToOutput(uint8_t pinNum);
+	
+	//This function sets a pin (at pinNum) to an input.
+	void setPinToInput(uint8_t pinNum);
 	
 	/*
 	This function causes the device to load the default settings from compile time (DEFAULT_x) in config.h
@@ -187,13 +227,13 @@ protected:
 	//Internal Function - Sets the address to field, then writes data.
 	void _setField(uint8_t field, uint8_t data);
 	
-	//Internal Function - returns a single bit from a field
+	//Internal Function - returns a single bit from the field at pin
 	bool _getFieldBit(uint8_t field, uint8_t pin);
 	
-	//Internal Function - sets a single bit from a field to value
+	//Internal Function - sets a single bit in the field at bit [pin] to value
 	void _setFieldBit(uint8_t field, uint8_t pin, bool value);
 	
-	//Internal Function - flips a single bit from a field to value
+	//Internal Function - flips a single bit in the field at bit [pin]
 	void _toggleFieldBit(uint8_t field, uint8_t pin);
 private:
 	//This value keep track if the device is currently running a memory OP.
