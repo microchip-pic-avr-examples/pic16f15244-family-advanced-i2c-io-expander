@@ -170,8 +170,8 @@ Figure 4 shows the way I<sup>2</sup>C reads occur in the device. Figure 5 shows 
 
 #### Register Ordering and Permissions
 Figure 6 shows the lookup table of registers on the device and the associated permissions. <br>
-<img src="images/CommandSet.png" width="500px"><br>
-*Figure 6 - Command Order and Allowed Operations*<br>
+<img src="images/registerSet.png" width="500px"><br>
+*Figure 6 - Register Order and Allowed Operations*<br>
 
 ##### Permission Descriptions
 
@@ -302,4 +302,4 @@ There are 4 configurations stored in memory, using 32 words (1 row) of memory. A
 | ERROR_WRITE_VERIFY    | 0x0B     | The memory written to the row does not match the internal copy of the data.
 
 ## Summary
-The PIC16F15244 family is perfect for building intelligent and flexible I/O expanders that can enable feature rich systems that can do more with fewer parts. 
+The PIC16F15244 family is perfect for building intelligent and flexible I/O expanders that can enable feature rich systems that can do more with fewer parts.
