@@ -3,7 +3,7 @@
     <type>com.microchip.mplab.nbide.embedded.makeproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
-            <name>pic16f15245-advanced-i2c-io-expander</name>
+            <name>pic16f15244-family-advanced-i2c-io-expander</name>
             <creation-uuid>9c540684-9d34-47c9-b5f2-5be3342e820a</creation-uuid>
             <make-project-type>0</make-project-type>
             <c-extensions>c</c-extensions>

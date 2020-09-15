@@ -304,4 +304,4 @@ There are 4 configurations stored in memory, using 32 words (1 row) of memory. A
 | ERROR_WRITE_VERIFY    | 0x0B     | The memory written to the row does not match the internal copy of the data.
 
 ## Summary
-The PIC16F15244 family is perfect for building intelligent and flexible I/O expanders that can enable feature rich systems that can do more with fewer parts.
+This code example demonstrated using the PIC16F15244 family of devices to create a highly configurable I/O expander which can be used to create feature rich systems and designs easily. 
