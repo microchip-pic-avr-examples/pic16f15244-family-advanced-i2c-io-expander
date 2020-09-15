@@ -6,8 +6,8 @@
         "name": "com.microchip.mcu8.mplabx.project.pic16f15245-i2c-io-expander",
         "version": "1.0.0",
         "displayName": "Advanced I/O Expander with PIC16F15245",
-        "projectName": "pic16f15245-i2c-io-expander",
-        "shortDescription": "PIC16F15245 - Advanced I2C controlled I/O Expander",
+        "projectName": "pic16f15244-family-advanced-i2c-io-expander",
+        "shortDescription": "PIC16F15244 Family Advanced I2C I/O Expander",
         "ide": {
             "name": "MPLABX",
             "semverRange": ">=5.40.0"
@@ -32,7 +32,7 @@
             "content": {
                 "metaDataVersion": "1.0.0",
                 "category": "com.microchip.device",
-                "name": "PIC16F15245",
+                "name": "PIC16F15244",
                 "versionRange": "*"
             }
         },

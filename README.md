@@ -7,20 +7,20 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 ## Related Documentation
 
 * <a href="https://onlinedocs.microchip.com/pr/GUID-632C0460-65B2-4F1E-8D1A-B760EB793F79-en-US-4/index.html">PIC16F15244 Family Datasheet (Web Version)</a>
-* <a href="https://github.com/microchip-pic-avr-examples/pic16f152454-family-simple-i2c-io-expander">Code Example: Simple I/O Expander with the PIC16F15244 Family</a>
+* <a href="https://github.com/microchip-pic-avr-examples/pic16f15244-family-simple-i2c-io-expander">Code Example: Simple I/O Expander with the PIC16F15244 Family</a>
 * <a href="https://microchip.com/design-centers/8-bit/peripherals/input-output">I/O Peripherals Information</a>
 
 ## Software Used
 
-* <a href="http://www.microchip.com/mplab/mplab-x-ide">MPLAB® IDE 5.40 or newer</a>
-* <a href="https://www.microchip.com/mplab/compilers">Microchip XC8 Compiler 2.20 or newer</a>
+* <a href="http://www.microchip.com/mplab/mplab-x-ide?utm_source=github&utm_medium=text&utm_campaign=pic152xx&utm_content=MCU8_MMTCha_advancedI2C">MPLAB® IDE 5.40 or newer</a>
+* <a href="https://www.microchip.com/mplab/compilers?utm_source=github&utm_medium=text&utm_campaign=pic152xx&utm_content=MCU8_MMTCha_advancedI2C">Microchip XC8 Compiler 2.20 or newer</a>
 * <a href="https://packs.download.microchip.com/">PIC16F1xxxx_DFP v1.4.119</a>
 
 ## Hardware Used
 
 ### Common Components (Select 1 of the following)
 
-* <a href="https://www.microchip.com/developmenttools/ProductDetails/PartNO/ADM00559">MCP2221A USB-UART/I<sup>2</sup>C breakout module, PN: ADM00559</a>
+* <a href="https://www.microchip.com/developmenttools/ProductDetails/PartNO/ADM00559?utm_source=github&utm_medium=text&utm_campaign=pic152xx&utm_content=MCU8_MMTCha_advancedI2C">MCP2221A USB-UART/I<sup>2</sup>C breakout module, PN: ADM00559</a>
 * Arduino UNO
   * [Install the Communication Library](Arduino/)
 
@@ -28,13 +28,15 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 
 ### With a 20-pin PIC16F15244 family device on a Curiosity LPC Board
 
-* <a href="https://www.microchip.com/DevelopmentTools/ProductDetails/PartNO/DM164137"> Microchip Low Pin Count Curiosity, Rev. 4. PN: DM164137</a><br><br>
+* <a href="https://www.microchip.com/DevelopmentTools/ProductDetails/PartNO/DM164137?utm_source=github&utm_medium=text&utm_campaign=pic152xx&utm_content=MCU8_MMTCha_advancedI2C"> Microchip Low Pin Count Curiosity, Rev. 4. PN: DM164137</a><br><br>
 
 **Important:** Many of the RCx pins are connected to components (such as LEDs, touch buttons, or the on-board potentiometer). Removing the small surface-mount jumpers (located on the back of the board) will disconnect these elements from the circuit. Soldering a pin header to the nearby unpopulated header will allow 2x1 pin jumpers to selectively enable these elements in the future.
 
 ### With the Curiosity Nano (PIC16F15244 Device)
 
-* <a href="#"> Microchip Curiosity Nano, PN: ???</a>
+* <a href="https://www.microchip.com/developmenttools/ProductDetails/PartNO/EV09Z19A?utm_source=github&utm_medium=text&utm_campaign=pic152xx&utm_content=MCU8_MMTCha_advancedI2C"> Microchip Curiosity Nano, PN: EV09Z19A</a>
+
+**Important:** The debugger UART TX trace may interfere with the I/O Expander in some cases. Cutting this trace (located on the underside of the Nano) will resolve the issue.
 
 ## Table of Contents
 
