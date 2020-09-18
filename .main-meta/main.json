@@ -38,7 +38,6 @@
         },
         "author": "Microchip",
         "subcategories": [
-            "MCC",
             [
                "Peripherals", "MSSP"
             ],
@@ -53,7 +52,6 @@
             "MSSP", "Memory", "IOC"
         ],
         "keywords": [
-            "MCC",
             "Bare Metal",
             "I2C",
             "I/O Expander"

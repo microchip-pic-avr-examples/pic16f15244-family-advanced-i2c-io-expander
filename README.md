@@ -7,6 +7,7 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 ## Related Documentation
 
 * <a href="https://onlinedocs.microchip.com/pr/GUID-632C0460-65B2-4F1E-8D1A-B760EB793F79-en-US-4/index.html">PIC16F15244 Family Datasheet (Web Version)</a>
+* <a href="https://www.youtube.com/watch?v=nHLv3Th-o-s" Introduction to the PIC16F15244 MCU Family Video</a>
 * <a href="https://github.com/microchip-pic-avr-examples/pic16f15244-family-simple-i2c-io-expander">Code Example: Simple I/O Expander with the PIC16F15244 Family</a>
 * <a href="https://microchip.com/design-centers/8-bit/peripherals/input-output">I/O Peripherals Information</a>
 
@@ -304,4 +305,4 @@ There are 4 configurations stored in memory, using 32 words (1 row) of memory. A
 | ERROR_WRITE_VERIFY    | 0x0B     | The memory written to the row does not match the internal copy of the data.
 
 ## Summary
-This code example demonstrated using the PIC16F15244 family of devices to create a highly configurable I/O expander which can be used to create feature rich systems and designs easily. 
+This code example demonstrated using the PIC16F15244 family of devices to create a highly configurable I/O expander which can be used to create feature rich systems and designs easily.
