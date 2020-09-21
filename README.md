@@ -89,9 +89,9 @@ The default positions for the pins and ports are:
 
 ## Solution Setup
 
-**PIC16F15243 Only: Due to a bug in the compiler, Storage Area Flash must be disabled in the configuration words, otherwise executable code will be placed in a non-executable section of memory.**
+**PIC16F15243 Only: Due to a bug in the compiler (XC8 v2.20), Storage Area Flash must be disabled in the configuration words, otherwise executable code will be placed in a non-executable section of memory.**
 
-1. Change the build configuration to the appropriate configuration ending with the part in use (ex: PIC16F15245).<br>
+1. Change the build configuration to the appropriate configuration ending with the part in use (e.g.: PIC16F15245).<br>
   a. If you have a license to use the Pro compiler, select the PRO option to enable code optimizations.<br>
   b. Otherwise, select the FREE option for no optimizations.<br>
 
@@ -142,7 +142,7 @@ This example uses a 7-bit I<sup>2</sup>C address, with it **defaulting to 0x60**
 For reference with this section, please consult [*Register Ordering and Permissions*](#register-ordering-and-permissions) to see the valid addresses and the allowed operations at each address.
 
 #### Writing to the Device
-After addressing the device, the device will always ACK. The 1st data byte sent is the internal address byte. In the case of a read (or select only command), this is the only byte sent. All successive bytes are written to the registers, eg: the 2nd data byte would be written to the register at address, and the 3rd going into the register at address + 1, etc. After each successfully written byte, the internal address counter increments. Figure 2 is a simple flowchart that shows how I<sup>2</sup>C writes are handled, while figure 3 shows an example write.<br>
+After addressing the device, the device will always ACK. The 1st data byte sent is the internal address byte. In the case of a read (or select only command), this is the only byte sent. All successive bytes are written to the registers, e.g.: the 2nd data would be written to the register at address, the 3rd would be written to register at address + 1, etc. After each successfully written byte, the internal address counter increments. Figure 2 is a simple flowchart that shows how I<sup>2</sup>C writes are handled, while figure 3 shows an example write.<br>
 
 <img src="images/I2C_write_flowchart.png"><br>
 *Figure 2 - I<sup>2</sup>C Write Flowchart*<br>
@@ -227,7 +227,7 @@ For all memory operations, the following sequence must be followed:
  5. Stop the I<sup>2</sup>C bus
  6. Wait for INT to be asserted
 
- **Important! If I<sup>2</sup>C communication with the device is started during a memory write, the bus may become stuck due to the driver missing an interrupt. This is especially important if using the MCP2221A device, which cannot sense INT. In the I<sup>2</sup>C terminal, you must set a delay (100ms or more is recommended) to ensure enough time is given for the operation. The device can be recovered by pulling the MCLR (reset) line low.**
+ **Important! If I<sup>2</sup>C communication with the device is started during a memory write, the bus may hang due to the driver missing an interrupt. This is especially important if using the MCP2221A device, which cannot sense INT. In the I<sup>2</sup>C terminal, you must set a delay (100ms or more is recommended) to ensure enough time is given for the operation. The device can be recovered by pulling the MCLR (reset) line low.**
 
  When followed, the device will execute the programmed memory operation (clearing any previous errors and deasserting the INT line). When completed, the INT line is asserted and the internal address is moved to ERROR (0x00). A read operation can be run immediately following the memory write without the need to set the address.<br><br>
 
@@ -240,7 +240,14 @@ If a memory operation fails, then the ERROR register will be updated and the mem
 <img src="images/memoryOP.png" width="500px"><br>
 *Figure 7 - Memory Operation Byte*<br>
 
-The formatting of the memory operation byte is shown in figure 7. Some configurations do not use some fields in the byte, as shown below. In this case, the unused fields can be set to any value.
+The formatting of the memory operation byte is shown in figure 7.
+
+* SRC = Source
+* DST = Destination
+* OP = Operation
+* BH = Behavior (during load)
+
+Some configurations do not use some fields in the byte, as shown below. In this case, the unused fields can be set to any value.
 
 | Operation     | Fields Used
 | ------------- | ---------
