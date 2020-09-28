@@ -25,7 +25,7 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 * Arduino UNO
   * [Install the Communication Library](Arduino/)
 
-*Alternatively, any I<sup>2</sup>C master can be used with this example, however it may require extra programming or setup steps.*
+*Alternatively, any I<sup>2</sup>C controller can be used with this example, however it may require extra programming or setup steps.*
 
 ### With a 20-pin PIC16F15244 family device on a Curiosity LPC Board
 

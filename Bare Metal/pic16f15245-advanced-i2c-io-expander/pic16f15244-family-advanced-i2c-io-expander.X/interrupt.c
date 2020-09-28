@@ -108,7 +108,7 @@ void __interrupt() ISR(void)
         
         assert_INT();                 //Assert the INT signal
     }
-    while (PIR1bits.SSP1IF)   //I2C
+    if (PIR1bits.SSP1IF)   //I2C
     {
         //Clear the interrupt
         clearI2Cinterrupt();
