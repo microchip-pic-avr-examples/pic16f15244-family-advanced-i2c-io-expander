@@ -1,5 +1,5 @@
-#ifndef I2C_SLAVE_H
-#define	I2C_SLAVE_H
+#ifndef I2C_DEVICE_H
+#define	I2C_DEVICE_H
 
 #ifdef	__cplusplus
 extern "C" {
@@ -10,7 +10,7 @@ extern "C" {
     /** 
      * <B><FONT COLOR=BLUE>void</FONT> initI2C(<FONT COLOR=BLUE>void</FONT>)</B>
      * 
-     * This function initializes the MSSP module in I2C Slave mode.
+     * This function initializes the MSSP module in I2C Device mode.
      *  */
     void initI2C(void);
     
@@ -48,5 +48,5 @@ extern "C" {
 }
 #endif
 
-#endif	/* I2C_H */
+#endif	/* I2C_DEVICE_H */
 

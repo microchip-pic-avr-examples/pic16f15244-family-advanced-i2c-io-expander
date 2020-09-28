@@ -1,4 +1,4 @@
-#include "i2c_slave.h"
+#include "i2c_device.h"
 #include "interrupt.h"
 #include "constants.h"
 

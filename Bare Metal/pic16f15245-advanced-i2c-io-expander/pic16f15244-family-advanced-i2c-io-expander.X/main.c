@@ -66,7 +66,7 @@
 #include <xc.h>
 
 #include "i2c_fsm.h"
-#include "i2c_slave.h"
+#include "i2c_device.h"
 #include "io_control.h"
 #include "interrupt.h"
 #include "status.h"

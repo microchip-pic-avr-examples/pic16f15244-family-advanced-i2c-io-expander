@@ -4,7 +4,7 @@
 #include "status.h"
 #include "interrupt.h"
 #include "memory_control.h"
-#include "i2c_slave.h"
+#include "i2c_device.h"
 
 void write_data(uint8_t pos, uint8_t data)
 {
