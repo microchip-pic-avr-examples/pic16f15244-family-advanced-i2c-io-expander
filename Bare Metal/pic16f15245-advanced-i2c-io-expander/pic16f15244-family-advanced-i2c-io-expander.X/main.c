@@ -76,8 +76,8 @@
 
 void main(void) {
 
-    //Run at 8MHz for 100kHz I2C
-    SET_OSC_FREQ(0b011);
+    //Run at 16MHz for 100kHz I2C
+    SET_OSC_FREQ(0b100);
 
     //Init Device Status + Error Registers
     initStatus();

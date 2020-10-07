@@ -27,6 +27,8 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 
 *Alternatively, any I<sup>2</sup>C controller can be used with this example, however it may require extra programming or setup steps.*
 
+**Important:** Before powering up this demo, validate both devices are running at the same Vdd or damage may occur!
+
 ### With a 20-pin PIC16F15244 family device on a Curiosity LPC Board
 
 * <a href="https://www.microchip.com/DevelopmentTools/ProductDetails/PartNO/DM164137?utm_source=github&utm_medium=text&utm_campaign=pic152xx&utm_content=MCU8_MMTCha_advancedI2C_IOExpander"> Microchip Low Pin Count Curiosity, Rev. 4. PN: DM164137</a><br><br>
@@ -37,7 +39,7 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 
 * <a href="https://www.microchip.com/developmenttools/ProductDetails/PartNO/EV09Z19A?utm_source=github&utm_medium=text&utm_campaign=pic152xx&utm_content=MCU8_MMTCha_advancedI2C_IOExpander"> Microchip Curiosity Nano, PN: EV09Z19A</a>
 
-**Important:** The debugger UART TX trace may interfere with the I/O Expander in some cases. Cutting this trace (located on the underside of the Nano) will resolve the issue.
+**Important:** The debugger UART TX trace may interfere with the I/O Expander in some cases. Cutting this trace (located on the underside of the Nano) will resolve the issue. The UART TX line can be externally connected from pin 4 of the Nano to the desired I/O line for future projects. Please see the [Nano User Guide](https://www.microchip.com/DevelopmentTools/ProductDetails/EV09Z19A) for more information.
 
 ## Table of Contents
 
