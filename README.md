@@ -39,8 +39,6 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 
 * <a href="https://www.microchip.com/developmenttools/ProductDetails/PartNO/EV09Z19A?utm_source=github&utm_medium=text&utm_campaign=pic152xx&utm_content=MCU8_MMTCha_advancedI2C_IOExpander"> Microchip Curiosity Nano, PN: EV09Z19A</a>
 
-**Important:** The debugger UART TX trace may interfere with the I/O Expander in some cases. Cutting this trace (located on the underside of the Nano) will resolve the issue. The UART TX line can be externally connected from pin 4 of the Nano to the desired I/O line for future projects. Please see the [Nano User Guide](https://www.microchip.com/DevelopmentTools/ProductDetails/EV09Z19A) for more information.
-
 ## Table of Contents
 
 * [Setup](#setup)

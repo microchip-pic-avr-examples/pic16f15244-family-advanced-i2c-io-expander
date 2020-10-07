@@ -2,7 +2,7 @@
     "metaDataVersion": "1.0.0",
     "category": "com.microchip.ide.project",
     "content": {
-        "metaDataVersion": "1.1.0",
+        "metaDataVersion": "1.1.1",
         "name": "com.microchip.mcu8.mplabx.project.pic16f15245-i2c-io-expander",
         "version": "1.1.0",
         "displayName": "Advanced I/O Expander with PIC16F15244 Family",
