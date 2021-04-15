@@ -4,20 +4,20 @@
     "content": {
         "metaDataVersion": "1.1.0",
         "name": "com.microchip.mcu8.mplabx.project.pic16f15244-family-advanced-i2c-io-expander",
-        "version": "1.2.0",
+        "version": "1.2.1",
         "displayName": "Advanced I/O Expander with PIC16F15244 Family",
         "projectName": "pic16f15244-family-advanced-i2c-io-expander",
         "shortDescription": "PIC16F15244 Family Advanced I2C I/O Expander",
         "ide": {
-            "name": "MPLABX",
+            "name": "MPLAB X",
             "semverRange": ">=5.45.0"
         },
         "compiler": [
-			{
-				"name": "XC8",
-				"semverRange": "^2.30.0"
-			}
-		],
+            {
+                "name": "XC8",
+                "semverRange": "^2.30.0"
+            }
+        ],
         "dfp": {
             "name": "PIC16F1xxxx_DFP",
             "semverRange": "^1.4.119"
@@ -35,33 +35,38 @@
         "author": "Microchip",
         "subcategories": [
             [
-               "Peripherals", "MSSP"
+                "Peripherals",
+                "MSSP"
             ],
             [
-               "Peripherals", "Memory"
+                "Peripherals",
+                "Memory"
             ],
             [
-               "Peripherals", "IOC"
+                "Peripherals",
+                "IOC"
             ]
         ],
         "peripherals": [
-            "MSSP", "Memory", "IOC"
+            "MSSP",
+            "Memory",
+            "IOC"
         ],
         "keywords": [
             "Bare Metal",
             "I2C",
             "I/O Expander"
         ],
-		"additionalData": {
-			"longDescription": {
-				"metaDataVersion": "1.0.0",
-				"category": "com.microchip.portal.fileRef",
-				"content": {
-					"metaDataVersion": "1.0.0",
-					"fileName": "./README.md",
-					"mimeType": "text/markdown"
-				}
-			}
-		}
-	}
+        "additionalData": {
+            "longDescription": {
+                "metaDataVersion": "1.0.0",
+                "category": "com.microchip.portal.fileRef",
+                "content": {
+                    "metaDataVersion": "1.0.0",
+                    "fileName": "./README.md",
+                    "mimeType": "text/markdown"
+                }
+            }
+        }
+    }
 }
