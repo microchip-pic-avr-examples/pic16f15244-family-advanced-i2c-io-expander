@@ -13,15 +13,15 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 
 ## Software Used
 
-* <a href="http://www.microchip.com/mplab/mplab-x-ide?utm_source=github&utm_medium=text&utm_campaign=pic152xx&utm_content=MCU8_MMTCha_advancedI2C_IOExpander">MPLAB® IDE 5.40 or newer</a>
-* <a href="https://www.microchip.com/mplab/compilers?utm_source=github&utm_medium=text&utm_campaign=pic152xx&utm_content=MCU8_MMTCha_advancedI2C_IOExpander">Microchip XC8 Compiler 2.20 or newer</a>
+* <a href="https://www.microchip.com/en-us/development-tools-tools-and-software/mplab-x-ide?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_MMTCha_pic152xx&utm_content=MCU8_MMTCha_advancedI2C_IOExpander">MPLAB® X IDE 5.40 or newer</a>
+* <a href="https://www.microchip.com/en-us/development-tools-tools-and-software/mplab-xc-compilers?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_MMTCha_pic152xx&utm_content=MCU8_MMTCha_advancedI2C_IOExpander">Microchip XC8 Compiler 2.20 or newer</a>
 * <a href="https://packs.download.microchip.com/">PIC16F1xxxx_DFP v1.4.119</a>
 
 ## Hardware Used
 
 ### Common Components (Select 1 of the following)
 
-* <a href="https://www.microchip.com/developmenttools/ProductDetails/PartNO/ADM00559?utm_source=github&utm_medium=text&utm_campaign=pic152xx&utm_content=MCU8_MMTCha_advancedI2C_IOExpander">MCP2221A USB-UART/I<sup>2</sup>C breakout module, PN: ADM00559</a>
+* <a href="https://www.microchip.com/developmenttools/ProductDetails/PartNO/ADM00559?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_MMTCha_pic152xx&utm_content=MCU8_MMTCha_advancedI2C_IOExpander">MCP2221A USB-UART/I<sup>2</sup>C breakout module, PN: ADM00559</a>
 * Arduino UNO
   * [Install the Communication Library](Arduino/)
 
@@ -31,7 +31,7 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 
 ### With a 20-pin PIC16F15244 family device on a Curiosity LPC Board
 
-* <a href="https://www.microchip.com/DevelopmentTools/ProductDetails/PartNO/DM164137?utm_source=github&utm_medium=text&utm_campaign=pic152xx&utm_content=MCU8_MMTCha_advancedI2C_IOExpander"> Microchip Low Pin Count Curiosity, Rev. 4. PN: DM164137</a><br><br>
+* <a href="https://www.microchip.com/DevelopmentTools/ProductDetails/PartNO/DM164137?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_MMTCha_pic152xx&utm_content=MCU8_MMTCha_advancedI2C_IOExpander"> Microchip Low Pin Count Curiosity, Rev. 4. PN: DM164137</a><br><br>
 
 **Important:** Many of the RCx pins are connected to components (such as LEDs, touch buttons, or the on-board potentiometer). Removing the small surface-mount jumpers (located on the back of the board) will disconnect these elements from the circuit. Soldering a pin header to the nearby unpopulated header will allow 2x1 pin jumpers to selectively enable these elements in the future.
 
@@ -63,6 +63,7 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
       * [Save and Load Configuration](#save-and-load-configuration)
     * [Memory Storage](#memory-storage)
 * [Error Handling](#error-handling)
+* [Implementation Notes](#implementation-notes)
 * [Summary](#summary)
 
 <br>
@@ -310,6 +311,10 @@ There are 4 configurations stored in memory, using 32 words (1 row) of memory. A
 | ERROR_MEM_INVALID_SEQ | 0x09     | An invalid sequence was provided to unlock the memory.
 | ERROR_CRC_FAILED      | 0x0A     | The memory that was loaded did not match the CRC value.
 | ERROR_WRITE_VERIFY    | 0x0B     | The memory written to the row does not match the internal copy of the data.
+
+## Implementation Notes
+
+While this example is more flexible and configurable than a standalone I/O expander ASIC, there are 2 main downsides to this solution: power consumption and software reliability. The ASICs are highly optimized to consume minimal power, even when active. In addition, there is a chance for software bugs or glitches to occur, which would cause a malfunction of this device. 
 
 ## Summary
 This code example demonstrated using the PIC16F15244 family of devices to create a highly configurable I/O expander which can be used to create feature rich systems and designs easily.
