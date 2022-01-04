@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><compatibleDevices>
+  <default>PIC16F15244</default>
+  <selectable>false</selectable>
+  <device>PIC16F15243</device>
+  <device>PIC16F15244</device>
+  <device>PIC16F15245</device>
+</compatibleDevices>

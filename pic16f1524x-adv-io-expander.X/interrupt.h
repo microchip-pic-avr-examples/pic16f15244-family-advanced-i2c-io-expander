@@ -50,6 +50,27 @@ extern "C" {
      *  */
     void disableI2Cinterrupt(void);
     
+        /** 
+     * <B><FONT COLOR=BLUE>void</FONT> enableTMR2interrupt(<FONT COLOR=BLUE>void</FONT>)</B>
+     * 
+     * This function enables TMR2 interrupts.
+     *  */
+    void enableTMR2interrupt(void);
+    
+    /** 
+     * <B><FONT COLOR=BLUE>void</FONT> disableTMR2interrupt(<FONT COLOR=BLUE>void</FONT>)</B>
+     * 
+     * This function disables TMR2 interrupts.
+     *  */
+    void disableTMR2interrupt(void);
+    
+    /** 
+     * <B><FONT COLOR=BLUE>void</FONT> clearTMR2interrupt(<FONT COLOR=BLUE>void</FONT>)</B>
+     * 
+     * This function clears the TMR2 interrupt flag.
+     *  */
+    void clearTMR2interrupt(void);
+    
     /** 
      * <B><FONT COLOR=BLUE>void</FONT> clearIOCinterrupt(<FONT COLOR=BLUE>void</FONT>)</B>
      * 

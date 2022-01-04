@@ -33,20 +33,6 @@
             }
         },
         "author": "Microchip",
-        "subcategories": [
-            [
-                "Peripherals",
-                "MSSP"
-            ],
-            [
-                "Peripherals",
-                "Memory"
-            ],
-            [
-                "Peripherals",
-                "IOC"
-            ]
-        ],
         "peripherals": [
             "MSSP",
             "Memory",

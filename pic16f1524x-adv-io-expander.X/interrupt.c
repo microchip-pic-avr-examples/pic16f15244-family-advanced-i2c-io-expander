@@ -3,6 +3,8 @@
 #include "constants.h"
 #include "io_control.h"
 #include "status.h"
+#include "timer2.h"
+#include "i2c_device.h"
 
 #include <xc.h>
 
@@ -35,6 +37,21 @@ void disableI2Cinterrupt(void)
 {
     //Disable ISR
     PIE1bits.SSP1IE = 0;
+}
+
+void enableTMR2interrupt(void)
+{
+    PIE1bits.TMR2IE = 1;
+}
+
+void disableTMR2interrupt(void)
+{
+    PIE1bits.TMR2IE = 0;
+}
+
+void clearTMR2interrupt(void)
+{
+    PIR1bits.TMR2IF = 0;
 }
 
 void enableIOCinterrupt(void)
@@ -106,7 +123,7 @@ void __interrupt() ISR(void)
         setIOC_PORT_flags();   
         clearIOCinterrupt();
         
-        assert_INT();                 //Assert the INT signal
+        assert_INT();           //Assert the INT signal
     }
     if (PIR1bits.SSP1IF)   //I2C
     {
@@ -114,5 +131,17 @@ void __interrupt() ISR(void)
         clearI2Cinterrupt();
         handle_I2C_ISR();
     } 
-    
+#ifdef I2C_TIMEOUT_EN
+    if (PIR1bits.TMR2IF)
+    {   
+        //Re-Init I2C Hardware
+        resetI2C();
+        
+        //Reset I2C State Machine
+        reset_I2C_FSM();        
+        
+        //Clear the TMR2 interrupt
+        clearTMR2interrupt();
+    }
+#endif
 }

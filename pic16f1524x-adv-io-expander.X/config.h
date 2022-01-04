@@ -28,6 +28,9 @@ extern "C" {
 #define I2C_BASE_ADDRESS 0x60
 #define _I2C_BASE_ADDR_VALUE (I2C_BASE_ADDRESS << 1)
 
+//Comment out this define to disable TMR2 as an I2C Timeout
+#define I2C_TIMEOUT_EN
+    
 //Comment out this define to disable address select lines for I2C    
 #define ENABLE_ADDR_LINES
     

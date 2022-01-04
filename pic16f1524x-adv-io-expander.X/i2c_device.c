@@ -48,6 +48,44 @@ void initI2C(void)
     
 }
 
+void resetI2C(void)
+{
+    //Disable I2C Interrupts
+    disableI2Cinterrupt();
+    
+    //Clear Configuration and Turn off I2C
+    SSP1CON1 = 0x00;
+    
+    SSP1STAT = 0x00;
+    SSP1STATbits.SMP = 1;       //Disable Slew Rate Control (100kHz)
+    SSP1STATbits.CKE = 0;       //Disable SMBUS inputs
+    
+    SSP1CON1bits.SSPM = 0b0110; //I2C 7-bit Address Mode
+    
+    SSP1CON2 = 0x00;
+    SSP1CON2bits.GCEN = 0;      //Disable General Call
+    SSP1CON2bits.ACKDT = 0;     //Polarity of ACK
+    SSP1CON2bits.ACKEN = 1;     //Enable ACK
+    SSP1CON2bits.RCEN = 1;      //Enable Rx
+    SSP1CON2bits.SEN = 0;       //Disable Clock Stretching
+    
+    SSP1CON3 = 0x00;
+    SSP1CON3bits.PCIE = 1;      //Enable STOP Interrupt
+    SSP1CON3bits.SCIE = 1;      //Enable START Interrupts
+    SSP1CON3bits.SDAHT = 0;     //100ns hold time
+    SSP1CON3bits.AHEN = 1;      //Enable Address Hold
+    SSP1CON3bits.DHEN = 1;      //Enable Data Hold
+        
+    SSP1MSK = 0xFE;             //Check 7-bit of the address
+        
+    //Clear any old ISRs + Enable I2C Interrupt
+    clearI2Cinterrupt();
+    enableI2Cinterrupt();
+    
+    //Turn on the Module
+    SSP1CON1bits.SSPEN = 1;
+}
+
 void setupI2Cpins(void)
 {    
     //Pins are Inputs

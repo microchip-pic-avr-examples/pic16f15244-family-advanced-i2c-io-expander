@@ -5,42 +5,51 @@
 #include "status.h"
 #include "data_control.h"
 #include "memory_control.h"
+#include "timer2.h"
 
 #include "constants.h"
 #include <xc.h>
+#include <stdbool.h>
 
-typedef union
-{
-    struct{
-        unsigned STARTED : 1;
-        unsigned STATE : 2;
-    };
-    uint8_t field;
-} I2C_Status;
 
-static volatile I2C_Status status;
 static volatile uint8_t bCount;
 static volatile uint8_t addr;
 
+static volatile bool busStarted;
+static volatile bool dataStarted;
+
 void init_I2C_FSM(void)
 {
-    status.field = 0x00;
+    busStarted = false;
+    dataStarted = false;
     bCount = 0x00;
     addr = 0x00;
 }
 
+void reset_I2C_FSM(void)
+{
+    busStarted = false;
+    dataStarted = false;
+    bCount = 0x00;
+}
 
 void handle_I2C_ISR(void)
-{        
+{            
     //Normally ACK
     SSP1CON2bits.ACKDT = 0;
     
     if (SSP1STATbits.P)
     {        
+#ifdef I2C_TIMEOUT_EN
+        //Stop I2C Monitor (TMR2)
+        stopTMR2();
+#endif
         //Stop Interrupt
-        bCount = 0;
+        //bCount = 0;
         
-        status.field = 0x00;
+        reset_I2C_FSM();
+        
+        //status.field = 0x00;
 
         //Release the Interrupt Line (if asserted)
         release_INT();
@@ -54,24 +63,27 @@ void handle_I2C_ISR(void)
             addr = 0x00;
         }
     }
-    else if ((status.STATE == 1) && (!SSP1CON3bits.ACKTIM) && (!SSP1STATbits.RW))
+    else if ((dataStarted) && (!SSP1CON3bits.ACKTIM) && (!SSP1STATbits.RW))
     {
         //When being written to, ignore the 2nd interrupt after ACK
-        status.STATE = 0;
+        dataStarted = false;
     }
-    else if ((SSP1STATbits.S) && (!SSP1STATbits.BF) && ((!SSP1CON3bits.ACKTIM) && (status.STATE == 0)))
+    else if ((SSP1STATbits.S) && (!SSP1STATbits.BF) && ((!SSP1CON3bits.ACKTIM) && (!dataStarted)))
     {
         //Start is enabled, no buffered data, no ACK/NACK yet, and no STOP
+#ifdef I2C_TIMEOUT_EN
+        //Start I2C Monitor (TMR2)
+        startTMR2();
+#endif
                 
         //Start Condition
-        status.STARTED = 1;
+        busStarted = true;
         bCount = 0;
     }
     else if (SSP1STATbits.BF)
     {
-        status.STATE = 1;
+        dataStarted = true;
         //Clear any former errors
-        
         
         uint8_t rx = SSP1BUF;
         //Buffer Full
@@ -92,6 +104,12 @@ void handle_I2C_ISR(void)
         else if (!SSP1STATbits.RW)
         {
             //Writes
+            
+#ifdef I2C_TIMEOUT_EN
+            //Clear the timeout monitor
+            clearTMR2();
+#endif
+            
             if (bCount == 1)
             {
                 //Address
@@ -124,8 +142,13 @@ void handle_I2C_ISR(void)
         //Increment the Byte Count
         bCount += 1;
     }
-    else if ((status.STARTED == 1) && (SSP1STATbits.RW) && (!SSP1CON2bits.ACKSTAT))
+    else if ((busStarted) && (SSP1STATbits.RW) && (!SSP1CON2bits.ACKSTAT))
     {
+#ifdef I2C_TIMEOUT_EN
+        //Clear the timeout monitor
+        clearTMR2();
+#endif
+        
         //Reads
         SSP1BUF = read_data(addr);
         if (OPERATION_SUCCESS())

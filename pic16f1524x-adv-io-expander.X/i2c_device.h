@@ -15,6 +15,13 @@ extern "C" {
     void initI2C(void);
     
     /** 
+     * <B><FONT COLOR=BLUE>void</FONT> initI2C(<FONT COLOR=BLUE>void</FONT>)</B>
+     * 
+     * This function re-initializes the MSSP module, in the event of a deadlock.
+     *  */
+    void resetI2C(void);
+    
+    /** 
      * <B><FONT COLOR=BLUE>void</FONT> setupI2Cpins(<FONT COLOR=BLUE>void</FONT>)</B>
      * 
      * This functions configures the appropriate I/O pins for I2C operation.

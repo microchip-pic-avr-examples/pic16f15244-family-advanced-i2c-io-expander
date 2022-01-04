@@ -50,7 +50,14 @@
 // CONFIG4
 #pragma config BBSIZE = BB512   // Boot Block Size Selection bits (512 words boot block size)
 #pragma config BBEN = OFF       // Boot Block Enable bit (Boot Block is disabled)
+
+//Not enough memory on the low memory variant to use SAF in some conditions
+#ifndef PIC16F152_43
 #pragma config SAFEN = ON       // SAF Enable bit (SAF is enabled)
+#else
+#pragma config SAFEN = OFF       // SAF Enable bit (SAF is disabled)
+#endif
+
 #pragma config WRTAPP = OFF     // Application Block Write Protection bit (Application Block is not write-protected)
 #pragma config WRTB = OFF       // Boot Block Write Protection bit (Boot Block is not write-protected)
 #pragma config WRTC = OFF       // Configuration Registers Write Protection bit (Configuration Registers are not write-protected)
@@ -73,12 +80,16 @@
 #include "memory_control.h"
 #include "CRC.h"
 #include "utility.h"
+#include "timer2.h"
 
 void main(void) {
 
     //Run at 16MHz for 100kHz I2C
     SET_OSC_FREQ(0b100);
-
+    
+    //32MHz Setting
+    //SET_OSC_FREQ(0b101);
+    
     //Init Device Status + Error Registers
     initStatus();
 
@@ -94,19 +105,27 @@ void main(void) {
     //Init I2C for Communication
     initI2C();
 
+#ifdef I2C_TIMEOUT_EN
+    //Init TMR2 as an I2C Timeout Monitor
+    initTMR2();
+    
+    //Enable TMR2 Interrupt    
+    enableTMR2interrupt();
+#endif 
+    
     //Init FSM
     init_I2C_FSM();
 
     //Enable Interrupt on Change
     enableIOCinterrupt();
-
+    
     //Enable Interrupts
     enableInterrupts();
 
     /*When the 1st I2C activity occurs, it will enter while(1). When the STOP
      event occurs in I2C, the STOP bit will be set, which will enable power
      saving sleep all the time. */
-
+    
     SLEEP();
     __asm("NOP");
 

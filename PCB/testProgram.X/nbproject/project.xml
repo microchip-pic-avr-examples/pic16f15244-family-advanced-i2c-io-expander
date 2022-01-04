@@ -3,8 +3,8 @@
     <type>com.microchip.mplab.nbide.embedded.makeproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
-            <name>pic16f1524x-adv-io-expander</name>
-            <creation-uuid>9c540684-9d34-47c9-b5f2-5be3342e820a</creation-uuid>
+            <name>pic16f15244-adv-io-test</name>
+            <creation-uuid>062246b0-5863-4c1a-b3dc-1190730cf21b</creation-uuid>
             <make-project-type>0</make-project-type>
             <c-extensions>c</c-extensions>
             <cpp-extensions/>
@@ -17,27 +17,11 @@
             </sourceRootList>
             <confList>
                 <confElem>
-                    <name>free_pic16f15245</name>
+                    <name>free</name>
                     <type>2</type>
                 </confElem>
                 <confElem>
-                    <name>pro_pic16f15245</name>
-                    <type>2</type>
-                </confElem>
-                <confElem>
-                    <name>free_pic16f15244</name>
-                    <type>2</type>
-                </confElem>
-                <confElem>
-                    <name>pro_pic16f15244</name>
-                    <type>2</type>
-                </confElem>
-                <confElem>
-                    <name>free_pic16f15243</name>
-                    <type>2</type>
-                </confElem>
-                <confElem>
-                    <name>pro_pic16f15243</name>
+                    <name>pro</name>
                     <type>2</type>
                 </confElem>
             </confList>
