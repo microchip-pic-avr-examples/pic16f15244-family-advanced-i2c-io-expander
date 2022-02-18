@@ -70,13 +70,13 @@ Copyright (c) [2012-2020] Microchip Technology Inc.
 // Use project enums instead of #define for ON and OFF.
 
 #include <xc.h>
-#include <pic16f15244.h>
 
 #include "advanced_IO.h"
 #include "ADC.h"
 #include "interrupts.h"
 #include "TMR.h"
 #include "IO.h"
+#include "mssp1_host.h"
 
 /* If set, this program will reset the IO Expander before configuration
  * NOTE: Remove or disable LEDs from RA2 before use - if left attached, !INT may not be detected
@@ -120,7 +120,7 @@ void main(void) {
     asm("NOP");
     
 #endif
-   
+    
     //Configure I/O Expander I/O
     advancedIO_setPinsAsOutputs(0xFF);
     advancedIO_setOutputsLow(0xFF);

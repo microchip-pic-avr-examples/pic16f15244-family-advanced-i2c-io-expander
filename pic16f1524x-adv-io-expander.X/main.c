@@ -130,7 +130,7 @@ void main(void) {
     __asm("NOP");
 
     while (1)
-    {
+    {  
         //I2C Idle
 
         if (isActive_n())

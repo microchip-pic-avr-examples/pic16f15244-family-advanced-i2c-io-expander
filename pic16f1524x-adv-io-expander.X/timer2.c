@@ -20,8 +20,8 @@ void initTMR2(void)
     //Select LFINTOSC
     T2CLKCON = 0b100;
     
-    //~50ms timeout
-    T2PR = 103;
+    //~25ms timeout
+    T2PR = 52; //103;
 }
 
 void startTMR2(void)

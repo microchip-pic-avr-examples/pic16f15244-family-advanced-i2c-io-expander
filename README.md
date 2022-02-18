@@ -4,24 +4,33 @@
 # Advanced I<sup>2</sup>C 8-Bit I/O Expander with PIC16F15244 Family
 One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to create a full-featured serial bus. This code example leverages this fact to create an advanced 8-bit I/O extender using the MSSP module, along with powerful other features such as Interrupt on Change (IOC) and the Program Flash Memory (PFM) to store and switch between different I/O configurations.
 
+## Articles and Posts
+
+* [Deploying Task-Specific MCUs Simplifies Complex Designs](https://www.edn.com/deploying-task-specific-microcontrollers-simplifies-complex-designs/)
+* [DIY I/O Expander with PIC16F15244 (Part 1 of 3)](https://www.hackster.io/robert-perkel/diy-i-o-expander-with-pic16f15244-part-1-of-3-fb7f44)
+* [Use a 7-Segment Display with an I2C I/O Expander (Part 2 of 3)](https://www.hackster.io/robert-perkel/use-a-7-segment-display-with-an-i2c-i-o-expander-55d5ae)
+* [Simple Keypad Controller with an I/O Expander (Part 3 of 3)](https://www.hackster.io/robert-perkel/simple-keypad-controller-with-an-i-o-expander-bb10bd)
+
 ## Related Documentation
 
-* <a href="https://onlinedocs.microchip.com/pr/GUID-632C0460-65B2-4F1E-8D1A-B760EB793F79-en-US-4/index.html">PIC16F15244 Family Datasheet (Web Version)</a>
-* <a href="https://www.youtube.com/watch?v=nHLv3Th-o-s"> Introduction to the PIC16F15244 MCU Family Video</a>
-* <a href="https://github.com/microchip-pic-avr-examples/pic16f15244-family-simple-i2c-io-expander">Code Example: Simple I/O Expander with the PIC16F15244 Family</a>
-* <a href="https://microchip.com/design-centers/8-bit/peripherals/input-output">I/O Peripherals Information</a>
+* [Code Example: Simple I/O Expander with the PIC16F15244 Family](https://github.com/microchip-pic-avr-examples/pic16f15244-family-simple-i2c-io-expander)
+* [PIC16F15244 Family Datasheet (Web Version)](https://onlinedocs.microchip.com/pr/GUID-632C0460-65B2-4F1E-8D1A-B760EB793F79-en-US-4/index.html)
+* [Introduction to the PIC16F15244 MCU Family Video](https://www.youtube.com/watch?v=nHLv3Th-o-s)
+* [I/O Peripherals Information](https://www.microchip.com/en-us/products/microcontrollers-and-microprocessors/8-bit-mcus/core-independent-and-analog-peripherals/system-flexibility/input-and-output-features?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_MMTCha_pic152xx&utm_content=pic16f15244-advanced-io-expander-github)
 
 ## Software Used
 
-* <a href="https://www.microchip.com/en-us/development-tools-tools-and-software/mplab-x-ide?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_MMTCha_pic152xx&utm_content=MCU8_MMTCha_advancedI2C_IOExpander">MPLAB® X IDE 5.40 or newer</a>
-* <a href="https://www.microchip.com/en-us/development-tools-tools-and-software/mplab-xc-compilers?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_MMTCha_pic152xx&utm_content=MCU8_MMTCha_advancedI2C_IOExpander">Microchip XC8 Compiler 2.20 or newer</a>
-* <a href="https://packs.download.microchip.com/">PIC16F1xxxx_DFP v1.4.119</a>
+* [MPLAB® X IDE 6.0.0 or newer](https://www.microchip.com/en-us/tools-resources/develop/mplab-x-ide?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_MMTCha_pic152xx&utm_content=pic16f15244-advanced-io-expander-github)
+* [Microchip XC8 Compiler 2.35 or newer](https://www.microchip.com/en-us/tools-resources/develop/mplab-xc-compilers?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_MMTCha_pic152xx&utm_content=pic16f15244-advanced-io-expander-github)
+* [PIC16F1xxxx_DFP v1.9.163](https://packs.download.microchip.com/)
 
 ## Hardware Used
 
 ### Common Components (Select 1 of the following)
 
-* <a href="https://www.microchip.com/developmenttools/ProductDetails/PartNO/ADM00559?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_MMTCha_pic152xx&utm_content=MCU8_MMTCha_advancedI2C_IOExpander">MCP2221A USB-UART/I<sup>2</sup>C breakout module, PN: ADM00559</a>
+* [MCP2221A USB-UART/I<sup>2</sup>C breakout module (ADM00559)](https://www.microchip.com/developmenttools/ProductDetails/PartNO/ADM00559?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_MMTCha_pic152xx&utm_content=pic16f15244-advanced-io-expander-github)
+* [Curiosity Nano Development Board (DM164137)](https://www.microchip.com/DevelopmentTools/ProductDetails/PartNO/DM164137?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_MMTCha_pic152xx&utm_content=pic16f15244-advanced-io-expander-github)
+  * See the [PCB folder](PCB/) for more information
 * Arduino UNO
   * [Install the Communication Library](Arduino/)
 
@@ -29,15 +38,21 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
 
 **Important:** Before powering up this demo, validate both devices are running at the same Vdd or damage may occur!
 
-### With a 20-pin PIC16F15244 family device on a Curiosity LPC Board
+### With the Demo PCB
 
-* <a href="https://www.microchip.com/DevelopmentTools/ProductDetails/PartNO/DM164137?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_MMTCha_pic152xx&utm_content=MCU8_MMTCha_advancedI2C_IOExpander"> Microchip Low Pin Count Curiosity, Rev. 4. PN: DM164137</a><br><br>
+See the [PCB folder](PCB/) for more information about building a demo board.
+
+### With a 20-pin PIC16F15244 family device on a Curiosity Development Board
+
+* [Microchip Curiosity Development Board, Rev. 4 (DM164137)](https://www.microchip.com/DevelopmentTools/ProductDetails/PartNO/DM164137?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_MMTCha_pic152xx&utm_content=pic16f15244-advanced-io-expander-github)
+
+Note: Sometimes referred to as a Low-Pin Count (LPC) board.
 
 **Important:** Many of the RCx pins are connected to components (such as LEDs, touch buttons, or the on-board potentiometer). Removing the small surface-mount jumpers (located on the back of the board) will disconnect these elements from the circuit. Soldering a pin header to the nearby unpopulated header will allow 2x1 pin jumpers to selectively enable these elements in the future.
 
 ### With the Curiosity Nano (PIC16F15244 Device)
 
-* <a href="https://www.microchip.com/developmenttools/ProductDetails/PartNO/EV09Z19A?utm_source=github&utm_medium=text&utm_campaign=pic152xx&utm_content=MCU8_MMTCha_advancedI2C_IOExpander"> Microchip Curiosity Nano, PN: EV09Z19A</a>
+* [PIC16F15244 Curiosity Nano Evaluation Kit (EV09Z19A)](https://www.microchip.com/Developmenttools/ProductDetails/EV09Z19A?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_MMTCha_pic152xx&utm_content=pic16f15244-advanced-io-expander-github)
 
 ## Table of Contents
 
@@ -50,6 +65,7 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
   * [Startup](#startup)
 * [I<sup>2</sup>C Configuration](#i2c-configuration)
 * [I<sup>2</sup>C Communication](#i2c-communication)
+  * [I<sup>2</sup>C Timeout](#i2c-timeout)
   * [Writing to the Device](#writing-to-the-device)
   * [Reading from the Device](#reading-from-the-device)
   * [Register Ordering and Permissions](#register-ordering-and-permissions)
@@ -64,6 +80,7 @@ One of the biggest benefits of I<sup>2</sup>C is the simple wiring required to c
     * [Memory Storage](#memory-storage)
 * [Error Handling](#error-handling)
 * [Implementation Notes](#implementation-notes)
+  * [Clock Speed and Implementation](#clock-speed-and-implementation)
 * [Summary](#summary)
 
 <br>
@@ -90,7 +107,7 @@ The default positions for the pins and ports are:
 
 ## Solution Setup
 
-**PIC16F15243 Only: Due to a bug in the compiler (XC8 v2.20), Storage Area Flash must be disabled in the configuration words, otherwise executable code will be placed in a non-executable section of memory.**
+**PIC16F15243 Only: Due to memory limits, Storage Area Flash must be disabled in the configuration words, otherwise executable code will be placed in a non-executable section of memory.**
 
 1. Change the build configuration to the appropriate configuration ending with the part in use (e.g.: PIC16F15245).<br>
   a. If you have a license to use the Pro compiler, select the PRO option to enable code optimizations.<br>
@@ -114,6 +131,7 @@ The default positions for the pins and ports are:
 | ----------------- | ------------  | --------
 | MEM_START         | 0x1F80        | Location of where the configs are stored in PFM.
 | I2C_BASE_ADDRESS  | 0x60          | Base address of I<sup>2</sup>C communication. The lower 3-bits should be clear to enable ADDR lines to function.
+| I2C_TIMEOUT_EN    | DEFINED       | When defined, Timer 2 (TMR2) is used as an I<sup>2</sup>C timeout detector, with a 50ms period. If not defined, TMR2 is not initialized (original release behavior).
 | ENABLE_ADDR_LINES | DEFINED       | When defined, the addressing lines are sampled to determine the lower 3-bits of the I<sup>2</sup>C address.
 | CONFIG_ON_BOOT    | DEFINED       | Enables whether the device will attempt to load CONFIG 0 on startup. If not enabled, the device starts with the default settings.
 | ENABLE_OPEN_DRAIN | DEFINED       | If defined, the INT line is an open drain line. A resistor is needed to pull-up the line to Vdd. If not defined, the line is push-pull.
@@ -141,6 +159,11 @@ This example uses a 7-bit I<sup>2</sup>C address, with it **defaulting to 0x60**
 
 ### I<sup>2</sup>C Communication
 For reference with this section, please consult [*Register Ordering and Permissions*](#register-ordering-and-permissions) to see the valid addresses and the allowed operations at each address.
+
+#### I<sup>2</sup>C Timeout
+If enabled in *config.h*, TMR2 is used to recover from I<sup>2</sup>C timeouts. On detection of the start bit, the timer is enabled. Each byte received or transmitted will clear the timer. The STOP condition will stop the timer from running. If the timer rolls over, an interrupt is generated, resetting the hardware peripheral and the (software) I<sup>2</sup>C state machines. This is primarily intended for cases where the device desynchronizes with the host.
+
+The default period is 50ms.
 
 #### Writing to the Device
 After addressing the device, the device will always ACK. The 1st data byte sent is the internal address byte. In the case of a read (or select only command), this is the only byte sent. All successive bytes are written to the registers, e.g.: the 2nd data would be written to the register at address, the 3rd would be written to register at address + 1, etc. After each successfully written byte, the internal address counter increments. Figure 2 is a simple flowchart that shows how I<sup>2</sup>C writes are handled, while figure 3 shows an example write.<br>
@@ -314,7 +337,11 @@ There are 4 configurations stored in memory, using 32 words (1 row) of memory. A
 
 ## Implementation Notes
 
-While this example is more flexible and configurable than a standalone I/O expander ASIC, there are 2 main downsides to this solution: power consumption and software reliability. The ASICs are highly optimized to consume minimal power, even when active. In addition, there is a chance for software bugs or glitches to occur, which would cause a malfunction of this device. 
+While this example is more flexible and configurable than a standalone I/O expander ASIC, there are 2 main downsides to this solution: power consumption and software reliability. The ASICs are highly optimized to consume minimal power, even when active. In addition, there is a chance for software bugs or glitches to occur, which would cause a malfunction of this device.
+
+### Clock Speed and Implementation
+
+At the moment, this demo runs at a clock speed of 16 MHz (when not in sleep). The reason why this demo has such as a high clock speed is because I<sup>2</sup>C generates a lot of interrupts, all of which be processed very quickly. If adding to the functionality of this demo, increasing the clock speed to the max of 32 MHz will add more timing margin to the design. It will also improve the response time of the I<sup>2</sup>C at the cost of power.
 
 ## Summary
 This code example demonstrated using the PIC16F15244 family of devices to create a highly configurable I/O expander which can be used to create feature rich systems and designs easily.

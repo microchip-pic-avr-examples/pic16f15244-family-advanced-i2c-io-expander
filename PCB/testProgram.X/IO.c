@@ -1,5 +1,5 @@
 
-#include <pic16f15244.h>
+#include <xc.h>
 
 #include "IO.h"
 

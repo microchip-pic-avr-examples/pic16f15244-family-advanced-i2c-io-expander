@@ -26,13 +26,6 @@ void init_I2C_FSM(void)
     addr = 0x00;
 }
 
-void reset_I2C_FSM(void)
-{
-    busStarted = false;
-    dataStarted = false;
-    bCount = 0x00;
-}
-
 void handle_I2C_ISR(void)
 {            
     //Normally ACK

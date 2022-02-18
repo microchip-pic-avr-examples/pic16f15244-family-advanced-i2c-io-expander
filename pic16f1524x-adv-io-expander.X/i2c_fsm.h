@@ -21,7 +21,8 @@ extern "C" {
      * This function resets the I2C state machines which enable proper
      * reception and transmission of I2C traffic. 
      *  */
-    void reset_I2C_FSM(void);
+#define reset_I2C_FSM() init_I2C_FSM()
+    //void reset_I2C_FSM(void);
 
     
     /** 

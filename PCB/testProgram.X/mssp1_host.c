@@ -294,16 +294,23 @@ bool MSSP_WriteBlock(uint8_t deviceADDR, uint8_t* blockMem, uint8_t memSize)
         return false;
     }
     
+    bool success = true;
     //Send the block of memroy to the client
     for (uint8_t I2CWrites = 0; I2CWrites < memSize; I2CWrites++)
     {
         //Send a byte of data
         WriteByteToMSSP(blockMem[I2CWrites]);
+        
+        if (MSSP_NACKED)
+        {
+            I2CWrites = memSize;
+            success = false;
+        }
     }
     
     //Stop I2C Communication
     stopI2C();
-    return true;
+    return success;
 }
 
 bool MSSP_ReadBlock(uint8_t deviceADDR, uint8_t* blockMem, uint8_t memSize)
